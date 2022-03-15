@@ -10,18 +10,25 @@
     }
   ],
   "require": {
-    "php": ">=7.2.5"
+    "php": ">=7.2.5",
+    "prestashop/circuit-breaker": "^4.0",
+    "doctrine/cache": "^2.1"
   },
   "require-dev": {
     "prestashop/php-dev-tools": "^4.2",
-    "phpstan/phpstan": "^1.4"
+    "phpstan/phpstan": "^1.4",
+    "phpunit/phpunit": "^8.5"
   },
   "autoload": {
     "psr-4": {
       "PrestaShop\\Module\\DistributionApiClient\\": "src/"
     },
-    "classmap": ["ps_distributionapiclient.php"],
-    "exclude-from-classmap": []
+    "classmap": ["ps_distributionapiclient.php"]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "PrestaShop\\Module\\DistributionApiClient\\Tests\\": "tests/Unit/"
+    }
   },
   "config": {
     "preferred-install": "dist",

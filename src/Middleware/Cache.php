@@ -25,6 +25,7 @@ namespace PrestaShop\Module\DistributionApiClient\Middleware;
 use Closure;
 use Doctrine\Common\Cache\CacheProvider;
 use GuzzleHttp\Promise\FulfilledPromise;
+use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -41,12 +42,12 @@ class Cache
 
     public function __invoke(callable $handler): Closure
     {
-        return function (RequestInterface $request, array $options) use ($handler) {
+        return function (RequestInterface $request, array $options) use ($handler): PromiseInterface {
             $service = (string) $request->getUri();
             if (!$this->cache->contains($service)) {
                 $response = $handler($request, $options);
 
-                return $response->then(function (ResponseInterface $response) use ($service) {
+                return $response->then(function (ResponseInterface $response) use ($service): ResponseInterface {
                     if ($response->getStatusCode() === 200) {
                         $this->cache->save($service, $this->makeCachedResponse($response));
                     }
