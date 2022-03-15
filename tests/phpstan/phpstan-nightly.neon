@@ -7,7 +7,7 @@ parameters:
     - ../../config
     - ../../tests
     - ../../ps_distributionapiclient.php
-  excludes_analyse:
+  excludePaths:
     - vendor/
   # We consider that the extension file will be stored the folder test/phpstan
   # From Phpstan 0.12, paths are relative to the .neon file.
