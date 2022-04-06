@@ -68,7 +68,7 @@ class Ps_Distributionapiclient extends Module
      */
     public function hookActionBeforeInstallModule(array $params): void
     {
-        if (!isset($params['moduleName'])) {
+        if (!isset($params['moduleName']) || $this->getDistributionApi()->isModuleOnDisk($params['moduleName'])) {
             return;
         }
 

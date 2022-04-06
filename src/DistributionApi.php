@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace PrestaShop\Module\DistributionApiClient;
 
 use PrestaShop\CircuitBreaker\Contract\CircuitBreakerInterface;
+use PrestaShop\PrestaShop\Adapter\Module\ModuleDataProvider;
 use PrestaShop\PrestaShop\Core\Module\SourceHandler\SourceHandlerFactory;
 
 class DistributionApi
@@ -40,6 +41,9 @@ class DistributionApi
     /** @var SourceHandlerFactory */
     private $sourceHandlerFactory;
 
+    /** @var ModuleDataProvider */
+    private $moduleDataProvider;
+
     /** @var string */
     private $prestashopVersion;
 
@@ -49,11 +53,13 @@ class DistributionApi
     public function __construct(
         CircuitBreakerInterface $circruitBreaker,
         SourceHandlerFactory $sourceHandlerFactory,
+        ModuleDataProvider $moduleDataProvider,
         string $prestashopVersion,
         string $downloadDirectory
     ) {
         $this->circruitBreaker = $circruitBreaker;
         $this->sourceHandlerFactory = $sourceHandlerFactory;
+        $this->moduleDataProvider = $moduleDataProvider;
         $this->prestashopVersion = $prestashopVersion;
         $this->downloadDirectory = trim($downloadDirectory, '/');
     }
@@ -94,6 +100,11 @@ class DistributionApi
                 break;
             }
         }
+    }
+
+    public function isModuleOnDisk(string $moduleName): bool
+    {
+        return $this->moduleDataProvider->isOnDisk($moduleName);
     }
 
     /**
