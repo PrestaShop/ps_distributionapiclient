@@ -33,7 +33,7 @@ class DistributionApi
     public const THRESHOLD_SECONDS = 86400; // 24 hours
     public const CACHE_LIFETIME_SECONDS = 86400; // 24 hours
 
-    private const API_ENDPOINT = 'http://localhost/prestashop-api/public';
+    private const API_ENDPOINT = 'https://integration-api.prestashop-project.org';
 
     /** @var CircuitBreakerInterface */
     private $circruitBreaker;
@@ -61,7 +61,7 @@ class DistributionApi
         $this->sourceHandlerFactory = $sourceHandlerFactory;
         $this->moduleDataProvider = $moduleDataProvider;
         $this->prestashopVersion = $prestashopVersion;
-        $this->downloadDirectory = trim($downloadDirectory, '/');
+        $this->downloadDirectory = rtrim($downloadDirectory, '/');
     }
 
     /**
@@ -77,7 +77,7 @@ class DistributionApi
         foreach ($response as $name => $module) {
             $modules[] = [
                 'name' => $name,
-                'displayName' => $module['displayName'],
+                'displayName' => $module['display_name'],
                 'description' => $module['description'],
                 'version' => $module['version'],
                 'version_available' => $module['version'],
