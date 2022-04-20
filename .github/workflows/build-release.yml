@@ -3,4 +3,4 @@ on: [push, pull_request]
 
 jobs:
   build-and-release-draft:
-    uses: atomiix/.github/.github/workflows/build-release.yml@main
+    uses: PrestaShop/.github/.github/workflows/build-release.yml@master
