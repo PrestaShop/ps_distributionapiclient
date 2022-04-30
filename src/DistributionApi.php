@@ -118,7 +118,21 @@ class DistributionApi
             return;
         }
 
-        $moduleZip = file_get_contents($module['download_url']);
+        $moduleZip = false;
+
+        if (function_exists('curl_version')) {
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_URL, $module['download_url']);
+
+            $moduleZip = curl_exec($ch);
+            curl_close($ch);
+        } elseif (in_array(ini_get('allow_url_fopen'), array('On', 'on', '1'))) {
+            $moduleZip = file_get_contents($module['download_url']);
+        }
 
         $downloadPath = $this->getModuleDownloadDirectory($module['name']);
         $this->createDownloadDirectoryIfNeeded($downloadPath);
