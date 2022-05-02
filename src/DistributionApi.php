@@ -130,7 +130,7 @@ class DistributionApi
 
             $moduleZip = curl_exec($ch);
             curl_close($ch);
-        } elseif (in_array(ini_get('allow_url_fopen'), array('On', 'on', '1'))) {
+        } elseif (in_array(ini_get('allow_url_fopen'), ['On', 'on', '1'])) {
             $moduleZip = file_get_contents($module['download_url']);
         }
 
