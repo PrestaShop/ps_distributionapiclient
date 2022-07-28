@@ -33,7 +33,7 @@ class DistributionApi
     public const THRESHOLD_SECONDS = 86400; // 24 hours
     public const CACHE_LIFETIME_SECONDS = 86400; // 24 hours
 
-    private const API_ENDPOINT = 'https://integration-api.prestashop-project.org';
+    private const API_ENDPOINT = 'https://api.prestashop-project.org';
 
     /** @var CircuitBreakerInterface */
     private $circruitBreaker;
