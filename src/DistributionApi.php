@@ -33,7 +33,7 @@ class DistributionApi
     public const THRESHOLD_SECONDS = 86400; // 24 hours
     public const CACHE_LIFETIME_SECONDS = 86400; // 24 hours
 
-    private const API_ENDPOINT = 'https://integration-api.prestashop-project.org';
+    private const API_ENDPOINT = 'https://api.prestashop-project.org';
 
     /** @var CircuitBreakerInterface */
     private $circruitBreaker;
@@ -75,17 +75,22 @@ class DistributionApi
         $modules = [];
 
         foreach ($response as $name => $module) {
-            $modules[] = [
+            $attributes = [
                 'name' => $name,
-                'displayName' => $module['display_name'],
-                'description' => $module['description'],
-                'version' => $module['version'],
                 'version_available' => $module['version'],
-                'author' => $module['author'],
                 'download_url' => $module['download_url'],
-                'img' => $module['icon'],
-                'tab' => $module['tab'],
             ];
+            if (!$this->isModuleOnDisk($name)) {
+                $attributes += [
+                    'displayName' => $module['display_name'],
+                    'description' => $module['description'],
+                    'version' => $module['version'],
+                    'author' => $module['author'],
+                    'img' => $module['icon'],
+                    'tab' => $module['tab'],
+                ];
+            }
+            $modules[] = $attributes;
         }
 
         return $modules;
