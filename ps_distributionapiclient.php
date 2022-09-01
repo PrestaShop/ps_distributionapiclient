@@ -35,8 +35,8 @@ class Ps_Distributionapiclient extends Module
     public function __construct()
     {
         $this->name = 'ps_distributionapiclient';
-        $this->displayName = $this->trans('Distribution API Client');
-        $this->description = $this->trans('Download and upgrade PrestaShop\'s native modules.');
+        $this->displayName = $this->trans('Distribution API Client', [], 'Modules.Distributionapiclient.Admin');
+        $this->description = $this->trans('Download and upgrade PrestaShop\'s native modules.', [], 'Modules.Distributionapiclient.Admin');
         $this->author = 'PrestaShop';
         $this->version = '1.0.1';
         $this->ps_versions_compliancy = ['min' => '8.0.0', 'max' => _PS_VERSION_];
