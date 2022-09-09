@@ -68,11 +68,12 @@ class Ps_Distributionapiclient extends Module
      */
     public function hookActionBeforeInstallModule(array $params): void
     {
-        if (!isset($params['moduleName']) || $this->getDistributionApi()->isModuleOnDisk($params['moduleName'])) {
+        $distributionApi = $this->getDistributionApi();
+        if (!isset($params['moduleName']) || $distributionApi->isModuleOnDisk($params['moduleName'])) {
             return;
         }
 
-        $this->getDistributionApi()->downloadModule($params['moduleName']);
+        $distributionApi->downloadModule($params['moduleName']);
     }
 
     /**
@@ -82,7 +83,7 @@ class Ps_Distributionapiclient extends Module
      */
     public function hookActionBeforeUpgradeModule(array $params): void
     {
-        if (!isset($params['moduleName'])) {
+        if (!isset($params['moduleName']) || !empty($params['source'])) {
             return;
         }
 
