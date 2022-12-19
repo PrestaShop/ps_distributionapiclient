@@ -25,6 +25,7 @@ namespace PrestaShop\Module\DistributionApiClient;
 use PrestaShop\CircuitBreaker\Contract\CircuitBreakerInterface;
 use PrestaShop\PrestaShop\Adapter\Module\ModuleDataProvider;
 use PrestaShop\PrestaShop\Core\Module\SourceHandler\SourceHandlerFactory;
+use Tools;
 
 class DistributionApi
 {
@@ -123,7 +124,7 @@ class DistributionApi
             return;
         }
 
-        $moduleZip = file_get_contents($module['download_url']);
+        $moduleZip = file_get_contents($this->addShopInfoToAPIEndpoint($module['download_url']));
 
         $downloadPath = $this->getModuleDownloadDirectory($module['name']);
         $this->createDownloadDirectoryIfNeeded($downloadPath);
@@ -154,8 +155,15 @@ class DistributionApi
     private function getResponse(string $endpoint): array
     {
         /** @var array<array<string, string>> $response */
-        $response = json_decode($this->circruitBreaker->call($endpoint), true) ?: [];
+        $response = json_decode($this->circruitBreaker->call($this->addShopInfoToAPIEndpoint($endpoint)), true) ?: [];
 
         return $response;
+    }
+
+    private function addShopInfoToAPIEndpoint(string $endpoint): string
+    {
+        $shopUrl = urlencode(Tools::getShopDomain());
+
+        return sprintf('%s?shop_domain=%s', $endpoint, $shopUrl);
     }
 }

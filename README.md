@@ -3,6 +3,9 @@
 ## About
 
 Download & upgrade PrestaShop's native modules from your backoffice
+> Note:
+> 
+> Shop's domain is sent to the API for analytics purposes while requesting module upgrades.
 
 ## Reporting issues
 
