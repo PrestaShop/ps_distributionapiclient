@@ -123,7 +123,7 @@ class DistributionApi
     /**
      * Extracts the download URL from a module data structure
      *
-     * @param array{download_url: string} $module Module data structure, from API response
+     * @param array{download_url?: string} $module Module data structure, from API response
      *
      * @return string Download URL
      */

@@ -28,7 +28,12 @@ use Context;
  */
 class ShopDataProvider
 {
-    public function getShopUrl()
+    /**
+     * Returns the default URL to shop's Front office
+     *
+     * @return string
+     */
+    public function getShopUrl(): string
     {
         return Context::getContext()->link->getBaseLink();
     }
