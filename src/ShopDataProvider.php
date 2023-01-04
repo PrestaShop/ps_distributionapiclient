@@ -22,6 +22,8 @@ declare(strict_types=1);
 namespace PrestaShop\Module\DistributionApiClient;
 
 use Context;
+use Link;
+use RuntimeException;
 
 /**
  * Provides information about the shop, to be added to API calls
@@ -35,6 +37,11 @@ class ShopDataProvider
      */
     public function getShopUrl(): string
     {
-        return Context::getContext()->link->getBaseLink();
+        $context = Context::getContext();
+        if (!$context instanceof Context || !$context->link instanceof Link) {
+            throw new RuntimeException('Unable to retrieve the contextual Link instance');
+        }
+
+        return $context->link->getBaseLink();
     }
 }
