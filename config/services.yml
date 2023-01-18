@@ -1,5 +1,6 @@
 parameters:
   ps_cache_dir: !php/const _PS_CACHE_DIR_
+  distributionapiclient_config_key: !php/const Ps_Distributionapiclient::SEND_SHOP_URL
 
 services:
   distributionapiclient.cache.filesystem.adapter:
@@ -56,4 +57,5 @@ services:
       - '@PrestaShop\Module\DistributionApiClient\ShopDataProvider'
       - "@=service('prestashop.core.foundation.version').getSemVersion()"
       - '%ps_cache_dir%/downloads'
+      - "@=service('prestashop.adapter.legacy.configuration').getBoolean(container.getParameter('distributionapiclient_config_key'))"
     public: true

@@ -51,6 +51,9 @@ class DistributionApi
     /** @var string */
     private $downloadDirectory;
 
+    /** @var bool */
+    private $shouldAddShopUrl;
+
     /**
      * @var ShopDataProvider
      */
@@ -62,7 +65,8 @@ class DistributionApi
         ModuleDataProvider $moduleDataProvider,
         ShopDataProvider $shopDataProvider,
         string $prestashopVersion,
-        string $downloadDirectory
+        string $downloadDirectory,
+        bool $shouldAddShopUrl
     ) {
         $this->circruitBreaker = $circruitBreaker;
         $this->sourceHandlerFactory = $sourceHandlerFactory;
@@ -70,6 +74,7 @@ class DistributionApi
         $this->prestashopVersion = $prestashopVersion;
         $this->downloadDirectory = rtrim($downloadDirectory, '/');
         $this->shopDataProvider = $shopDataProvider;
+        $this->shouldAddShopUrl = (bool) $shouldAddShopUrl;
     }
 
     /**
@@ -193,6 +198,11 @@ class DistributionApi
         return $this->addShopInfoToUrl($url);
     }
 
+    private function shouldAddShopUrl(): bool
+    {
+        return $this->shouldAddShopUrl;
+    }
+
     /**
      * Adds shop information to an URL
      *
@@ -202,6 +212,10 @@ class DistributionApi
      */
     private function addShopInfoToUrl(string $url): string
     {
+        if (!$this->shouldAddShopUrl()) {
+            return $url;
+        }
+
         $shopUrl = urlencode($this->shopDataProvider->getShopUrl());
 
         $separator = (strpos($url, '?') !== false) ? '&' : '?';
