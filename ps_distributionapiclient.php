@@ -39,7 +39,7 @@ class Ps_Distributionapiclient extends Module
         $this->description = $this->trans('Download and upgrade PrestaShop\'s native modules.', [], 'Modules.Distributionapiclient.Admin');
         $this->author = 'PrestaShop';
         $this->version = '1.0.3';
-        $this->ps_versions_compliancy = ['min' => '8.0.0', 'max' => _PS_VERSION_];
+        $this->ps_versions_compliancy = ['min' => '8.0.2', 'max' => _PS_VERSION_];
         $this->tab = 'market_place';
         parent::__construct();
     }
