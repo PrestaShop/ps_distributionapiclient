@@ -38,8 +38,8 @@ class Ps_Distributionapiclient extends Module
         $this->displayName = $this->trans('Distribution API Client', [], 'Modules.Distributionapiclient.Admin');
         $this->description = $this->trans('Download and upgrade PrestaShop\'s native modules.', [], 'Modules.Distributionapiclient.Admin');
         $this->author = 'PrestaShop';
-        $this->version = '1.0.2';
-        $this->ps_versions_compliancy = ['min' => '8.0.0', 'max' => _PS_VERSION_];
+        $this->version = '1.0.3';
+        $this->ps_versions_compliancy = ['min' => '8.0.2', 'max' => _PS_VERSION_];
         $this->tab = 'market_place';
         parent::__construct();
     }
@@ -68,11 +68,12 @@ class Ps_Distributionapiclient extends Module
      */
     public function hookActionBeforeInstallModule(array $params): void
     {
-        if (!isset($params['moduleName']) || $this->getDistributionApi()->isModuleOnDisk($params['moduleName'])) {
+        $distributionApi = $this->getDistributionApi();
+        if (!isset($params['moduleName']) || $distributionApi->isModuleOnDisk($params['moduleName'])) {
             return;
         }
 
-        $this->getDistributionApi()->downloadModule($params['moduleName']);
+        $distributionApi->downloadModule($params['moduleName']);
     }
 
     /**
@@ -82,7 +83,7 @@ class Ps_Distributionapiclient extends Module
      */
     public function hookActionBeforeUpgradeModule(array $params): void
     {
-        if (!isset($params['moduleName'])) {
+        if (!isset($params['moduleName']) || !empty($params['source'])) {
             return;
         }
 
