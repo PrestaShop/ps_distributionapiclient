@@ -44,12 +44,16 @@ services:
     factory: [ '@distributionapiclient.circuit_breaker.factory', 'create' ]
     arguments: [ '@distributionapiclient.circuit_breaker.settings' ]
 
+  PrestaShop\Module\DistributionApiClient\ShopDataProvider:
+    class: PrestaShop\Module\DistributionApiClient\ShopDataProvider
+
   distributionapiclient.distribution_api:
     class: PrestaShop\Module\DistributionApiClient\DistributionApi
     arguments:
       - '@distributionapiclient.circuit_breaker'
       - '@prestashop.module.factory.sourcehandler'
       - '@prestashop.adapter.data_provider.module'
+      - '@PrestaShop\Module\DistributionApiClient\ShopDataProvider'
       - "@=service('prestashop.core.foundation.version').getSemVersion()"
       - '%ps_cache_dir%/downloads'
     public: true
