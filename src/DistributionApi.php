@@ -144,7 +144,7 @@ class DistributionApi
     {
         $url = self::API_ENDPOINT . '/modules/' . $this->prestashopVersion;
 
-        if (isset($_ENV[self::URL_TRACKING_ENV_NAME]) && (bool) $_ENV[self::URL_TRACKING_ENV_NAME] === false) {
+        if (isset($_SERVER[self::URL_TRACKING_ENV_NAME]) && (bool) $_SERVER[self::URL_TRACKING_ENV_NAME] === false) {
             return $url;
         }
 
