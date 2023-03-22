@@ -144,12 +144,6 @@ class DistributionApi
     {
         $url = self::API_ENDPOINT . '/modules/' . $this->prestashopVersion;
 
-        if (isset($_SERVER[self::URL_TRACKING_ENV_NAME])
-            && ((bool) $_SERVER[self::URL_TRACKING_ENV_NAME] === false || $_SERVER[self::URL_TRACKING_ENV_NAME] === 'false')
-        ) {
-            return $url;
-        }
-
         return $this->addShopInfoToUrl($url);
     }
 
@@ -162,6 +156,12 @@ class DistributionApi
      */
     private function addShopInfoToUrl(string $url): string
     {
+        if (isset($_SERVER[self::URL_TRACKING_ENV_NAME])
+            && ((bool) $_SERVER[self::URL_TRACKING_ENV_NAME] === false || $_SERVER[self::URL_TRACKING_ENV_NAME] === 'false')
+        ) {
+            return $url;
+        }
+
         $shopUrl = urlencode($this->shopDataProvider->getShopUrl());
 
         $separator = (strpos($url, '?') !== false) ? '&' : '?';
