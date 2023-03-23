@@ -25,6 +25,7 @@ namespace PrestaShop\Module\DistributionApiClient;
 use PrestaShop\CircuitBreaker\Contract\CircuitBreakerInterface;
 use PrestaShop\PrestaShop\Adapter\Module\ModuleDataProvider;
 use PrestaShop\PrestaShop\Core\Module\SourceHandler\SourceHandlerFactory;
+use RuntimeException;
 
 class DistributionApi
 {
@@ -32,6 +33,7 @@ class DistributionApi
     public const TIMEOUT_IN_SECONDS = 3;
     public const THRESHOLD_SECONDS = 86400; // 24 hours
     public const CACHE_LIFETIME_SECONDS = 86400; // 24 hours
+    public const URL_TRACKING_ENV_NAME = 'PS_URL_TRACKING';
 
     private const API_ENDPOINT = 'https://api.prestashop-project.org';
 
@@ -50,10 +52,14 @@ class DistributionApi
     /** @var string */
     private $downloadDirectory;
 
+    /** @var ShopDataProvider */
+    private $shopDataProvider;
+
     public function __construct(
         CircuitBreakerInterface $circruitBreaker,
         SourceHandlerFactory $sourceHandlerFactory,
         ModuleDataProvider $moduleDataProvider,
+        ShopDataProvider $shopDataProvider,
         string $prestashopVersion,
         string $downloadDirectory
     ) {
@@ -62,6 +68,7 @@ class DistributionApi
         $this->moduleDataProvider = $moduleDataProvider;
         $this->prestashopVersion = $prestashopVersion;
         $this->downloadDirectory = rtrim($downloadDirectory, '/');
+        $this->shopDataProvider = $shopDataProvider;
     }
 
     /**
@@ -69,7 +76,7 @@ class DistributionApi
      */
     public function getModuleList(): array
     {
-        $endpoint = self::API_ENDPOINT . '/modules/' . $this->prestashopVersion;
+        $endpoint = $this->getModulesListUrl();
         $response = $this->getResponse($endpoint);
 
         $modules = [];
@@ -113,17 +120,65 @@ class DistributionApi
     }
 
     /**
+     * Extracts the download URL from a module data structure
+     *
+     * @param array{download_url?: string} $module Module data structure, from API response
+     *
+     * @return string Download URL
+     */
+    protected function getModuleDownloadUrl(array $module): string
+    {
+        if (!isset($module['download_url'])) {
+            throw new RuntimeException('Could not determine URL to download the module from');
+        }
+
+        return $this->addShopInfoToUrl($module['download_url']);
+    }
+
+    /**
+     * Returns the URL to the list of modules for this version
+     *
+     * @return string
+     */
+    private function getModulesListUrl(): string
+    {
+        $url = self::API_ENDPOINT . '/modules/' . $this->prestashopVersion;
+
+        return $this->addShopInfoToUrl($url);
+    }
+
+    /**
+     * Adds shop information to an URL
+     *
+     * @param string $url API endpoint
+     *
+     * @return string Modified URL
+     */
+    private function addShopInfoToUrl(string $url): string
+    {
+        if (isset($_SERVER[self::URL_TRACKING_ENV_NAME])
+            && ((bool) $_SERVER[self::URL_TRACKING_ENV_NAME] === false || $_SERVER[self::URL_TRACKING_ENV_NAME] === 'false')
+        ) {
+            return $url;
+        }
+
+        $shopUrl = urlencode($this->shopDataProvider->getShopUrl());
+
+        $separator = (strpos($url, '?') !== false) ? '&' : '?';
+
+        return sprintf('%s%sshop_domain=%s', $url, $separator, $shopUrl);
+    }
+
+    /**
      * @param array<string, string> $module
      *
      * @return void
      */
     private function doDownload(array $module): void
     {
-        if (!isset($module['download_url'])) {
-            return;
-        }
+        $downloadUrl = $this->getModuleDownloadUrl($module);
 
-        $moduleZip = file_get_contents($module['download_url']);
+        $moduleZip = file_get_contents($downloadUrl);
 
         $downloadPath = $this->getModuleDownloadDirectory($module['name']);
         $this->createDownloadDirectoryIfNeeded($downloadPath);
