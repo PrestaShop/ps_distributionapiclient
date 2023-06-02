@@ -27,5 +27,5 @@ docker run --rm --volumes-from temp-ps \
        -v $PWD:/var/www/html/modules/ps_distributionapiclient \
        -e _PS_ROOT_DIR_=/var/www/html \
        --workdir=/var/www/html/modules/ps_distributionapiclient ghcr.io/phpstan/phpstan:1.4.10 \
-       analyse --vvv --memory-limit=-1 \
+       analyse --debug --memory-limit=-1 \
        --configuration=/var/www/html/modules/ps_distributionapiclient/tests/phpstan/phpstan-${PS_VERSION}.neon
