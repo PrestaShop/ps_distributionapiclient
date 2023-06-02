@@ -29,7 +29,7 @@ use RuntimeException;
 
 class DistributionApi
 {
-    public const ALLOWED_FAILURES = 2;
+    public const ALLOWED_FAILURES = 3;
     public const TIMEOUT_IN_SECONDS = 3;
     public const THRESHOLD_SECONDS = 86400; // 24 hours
     public const CACHE_LIFETIME_SECONDS = 86400; // 24 hours
