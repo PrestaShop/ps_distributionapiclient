@@ -25,6 +25,7 @@ namespace PrestaShop\Module\DistributionApiClient;
 use PrestaShop\CircuitBreaker\Contract\CircuitBreakerInterface;
 use PrestaShop\PrestaShop\Adapter\Module\ModuleDataProvider;
 use PrestaShop\PrestaShop\Core\Module\SourceHandler\SourceHandlerFactory;
+use PrestashopException;
 use RuntimeException;
 
 class DistributionApi
