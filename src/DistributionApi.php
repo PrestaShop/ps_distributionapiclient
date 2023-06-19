@@ -25,7 +25,6 @@ namespace PrestaShop\Module\DistributionApiClient;
 use PrestaShop\CircuitBreaker\Contract\CircuitBreakerInterface;
 use PrestaShop\PrestaShop\Adapter\Module\ModuleDataProvider;
 use PrestaShop\PrestaShop\Core\Module\SourceHandler\SourceHandlerFactory;
-use PrestashopException;
 use RuntimeException;
 
 class DistributionApi
@@ -210,8 +209,9 @@ class DistributionApi
     private function getResponse(string $endpoint): array
     {
         $response = $this->circruitBreaker->call($endpoint, [], function () {
-            throw new PrestaShopException('Unable to retrieve informations from Distribution API : cannot automatically update native modules for the moment.');
+            throw new \PrestaShopException('Unable to retrieve informations from Distribution API : cannot automatically update native modules for the moment.');
         });
+
         /** @var array<array<string, string>> $json */
         $json = json_decode($response, true) ?: [];
 
