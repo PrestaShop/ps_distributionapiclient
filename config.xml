@@ -2,7 +2,7 @@
 <module>
     <name>ps_distributionapiclient</name>
     <displayName><![CDATA[Distribution API Client]]></displayName>
-    <version><![CDATA[1.1.0]]></version>
+    <version><![CDATA[1.1.1]]></version>
     <description><![CDATA[Download and upgrade PrestaShop&#039;s native modules.]]></description>
     <author><![CDATA[PrestaShop]]></author>
     <tab><![CDATA[market_place]]></tab>
