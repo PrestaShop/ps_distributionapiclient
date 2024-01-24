@@ -208,9 +208,13 @@ class DistributionApi
      */
     private function getResponse(string $endpoint): array
     {
-        /** @var array<array<string, string>> $response */
-        $response = json_decode($this->circruitBreaker->call($endpoint), true) ?: [];
+        $response = $this->circruitBreaker->call($endpoint, [], function () {
+            throw new \PrestaShopException('Unable to retrieve informations from Distribution API : cannot automatically update native modules for the moment.');
+        });
 
-        return $response;
+        /** @var array<array<string, string>> $json */
+        $json = json_decode($response, true) ?: [];
+
+        return $json;
     }
 }
