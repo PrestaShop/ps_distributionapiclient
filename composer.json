@@ -10,9 +10,10 @@
     }
   ],
   "require": {
-    "php": ">=7.2.5",
+    "php": ">=8.1",
     "prestashop/circuit-breaker": "^4.0",
-    "doctrine/cache": "^2.1"
+    "doctrine/cache": "^2.1",
+    "symfony/http-client": "6.4.*"
   },
   "require-dev": {
     "prestashop/php-dev-tools": "^4.2",
@@ -36,7 +37,7 @@
     "optimize-autoloader": true,
     "prepend-autoloader": false,
     "platform": {
-      "php": "7.2.5"
+      "php": "8.1.0"
     }
   },
   "type": "prestashop-module"
