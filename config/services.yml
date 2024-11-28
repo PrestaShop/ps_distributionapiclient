@@ -15,16 +15,15 @@ services:
     arguments:
       - '@distributionapiclient.cache.filesystem.adapter'
 
-  distributionapiclient.circuit_breaker.cache:
-    class: PrestaShop\Module\DistributionApiClient\Middleware\Cache
+  distributionapiclient.middleware.cachedhttpclient:
+    class: PrestaShop\Module\DistributionApiClient\Middleware\CachedHttpClient
     arguments:
-      - '@distributionapiclient.cache.provider'
+      $cache: '@distributionapiclient.cache.provider'
 
-  distributionapiclient.circuit_breaker.handlerstack:
-    class: GuzzleHttp\HandlerStack
-    factory: [ 'GuzzleHttp\HandlerStack', 'create' ]
-    calls:
-      - push: [ '@distributionapiclient.circuit_breaker.cache' ]
+  distributionapiclient.symfony.client:
+    class: PrestaShop\CircuitBreaker\Client\SymfonyHttpClient
+    arguments:
+      $client: '@distributionapiclient.middleware.cachedhttpclient'
 
   distributionapiclient.circuit_breaker.factory:
     class: PrestaShop\CircuitBreaker\AdvancedCircuitBreakerFactory
@@ -37,8 +36,7 @@ services:
       - !php/const PrestaShop\Module\DistributionApiClient\DistributionApi::THRESHOLD_SECONDS
     calls:
       - setStorage: [ '@prestashop.core.circuit_breaker.storage' ]
-      - setClientOptions:
-          - { handler: '@distributionapiclient.circuit_breaker.handlerstack'}
+      - setClient: [ '@distributionapiclient.symfony.client' ]
 
   distributionapiclient.circuit_breaker:
     class: PrestaShop\CircuitBreaker\Contract\CircuitBreakerInterface
