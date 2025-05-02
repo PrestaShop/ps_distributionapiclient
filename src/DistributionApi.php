@@ -55,13 +55,17 @@ class DistributionApi
     /** @var ShopDataProvider */
     private $shopDataProvider;
 
+    /** @var string */
+    private $projectDirectory;
+
     public function __construct(
         CircuitBreakerInterface $circruitBreaker,
         SourceHandlerFactory $sourceHandlerFactory,
         ModuleDataProvider $moduleDataProvider,
         ShopDataProvider $shopDataProvider,
         string $prestashopVersion,
-        string $downloadDirectory
+        string $downloadDirectory,
+        string $projectDirectory,
     ) {
         $this->circruitBreaker = $circruitBreaker;
         $this->sourceHandlerFactory = $sourceHandlerFactory;
@@ -69,6 +73,7 @@ class DistributionApi
         $this->prestashopVersion = $prestashopVersion;
         $this->downloadDirectory = rtrim($downloadDirectory, '/');
         $this->shopDataProvider = $shopDataProvider;
+        $this->projectDirectory = $projectDirectory;
     }
 
     /**
@@ -162,11 +167,26 @@ class DistributionApi
             return $url;
         }
 
-        $shopUrl = urlencode($this->shopDataProvider->getShopUrl());
-
         $separator = (strpos($url, '?') !== false) ? '&' : '?';
 
-        return sprintf('%s%sshop_domain=%s', $url, $separator, $shopUrl);
+        // Add shop URL
+        $shopUrl = urlencode($this->shopDataProvider->getShopUrl());
+        $url = sprintf('%s%sshop_domain=%s', $url, $separator, $shopUrl);
+
+        // Add distribution details
+        $metadataFile = $this->projectDirectory . '/app/metadata.json';
+        if (file_exists($metadataFile)) {
+            $metadataFileContent = file_get_contents($metadataFile);
+            if (!empty($metadataFileContent)) {
+                /** @var array<string, string>|false $metadata */
+                $metadata = json_decode($metadataFileContent, true);
+                if (!empty($metadata['distribution']) && !empty($metadata['distributionVersion'])) {
+                    $url = sprintf('%s&distribution=%s&distribution_version=%s', $url, $metadata['distribution'], $metadata['distributionVersion']);
+                }
+            }
+        }
+
+        return $url;
     }
 
     /**

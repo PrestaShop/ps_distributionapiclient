@@ -6,7 +6,7 @@ Download & upgrade PrestaShop's native modules from your backoffice
 
 ## Compatibility
 
-PrestaShop: `8.0.2` or later
+PrestaShop: `9.0.0` or later
 
 ## Reporting issues
 

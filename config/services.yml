@@ -55,4 +55,5 @@ services:
       - '@PrestaShop\Module\DistributionApiClient\ShopDataProvider'
       - "@=service('prestashop.core.foundation.version').getSemVersion()"
       - '%ps_cache_dir%/downloads'
+      - '%kernel.project_dir%'
     public: true
