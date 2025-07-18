@@ -58,3 +58,9 @@ services:
       - "@=service('prestashop.core.foundation.version').getSemVersion()"
       - '%ps_cache_dir%/downloads'
     public: true
+
+  PrestaShop\Module\DistributionApiClient\Controller\Admin\TopContributorsController:
+    autowire: true
+    autoconfigure: true
+    public: true
+    tags: ['controller.service_arguments']

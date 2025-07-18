@@ -38,7 +38,7 @@ class Ps_Distributionapiclient extends Module
         $this->displayName = $this->trans('Distribution API Client', [], 'Modules.Distributionapiclient.Admin');
         $this->description = $this->trans('Download and upgrade PrestaShop\'s native modules.', [], 'Modules.Distributionapiclient.Admin');
         $this->author = 'PrestaShop';
-        $this->version = '1.1.1';
+        $this->version = '1.2.0';
         $this->ps_versions_compliancy = ['min' => '8.0.2', 'max' => _PS_VERSION_];
         $this->tab = 'market_place';
         parent::__construct();
@@ -50,6 +50,7 @@ class Ps_Distributionapiclient extends Module
             && $this->registerHook('actionListModules')
             && $this->registerHook('actionBeforeInstallModule')
             && $this->registerHook('actionBeforeUpgradeModule')
+            && $this->registerTab()
         ;
     }
 
@@ -96,5 +97,27 @@ class Ps_Distributionapiclient extends Module
         $distributionApi = $this->get('distributionapiclient.distribution_api');
 
         return $distributionApi;
+    }
+
+    public function registerTab(): bool
+    {
+        $tabId = Tab::getIdFromClassName('AdminPsdistributionapiclient');
+        // Update existing tab or create a new one if not found
+        $tab = new Tab(!empty($tabId) ? $tabId : null);
+        $tab->active = true;
+        $tab->class_name = 'AdminPsdistributionapiclient';
+        $tab->id_parent = 0;
+        $tab->route_name = 'ps_distributionapiclient_top_contributors';
+        $tab->module = $this->name;
+        $tab->wording = 'Wall of Fame';
+        $tab->wording_domain = 'Modules.Distributionapiclient.Admin';
+        // Careful icon is required for a first level tab to be displayed
+        $tab->icon = 'stars';
+        /** @var array{'id_lang': int, "locale": string} $lang */
+        foreach (Language::getLanguages() as $lang) {
+            $tab->name[$lang['id_lang']] = $this->trans('Wall of Fame', [], 'Modules.Distributionapiclient.Admin', $lang['locale']);
+        }
+
+        return $tab->save();
     }
 }
