@@ -12,26 +12,34 @@ const carousel_config = {
   snapAlign: 'center' as const,
   breakpointMode: 'carousel' as const,
   breakpoints: {
-    664: {
+    0: {
+      itemsToShow: 1,
+      snapAlign: 'center' as const,
+    },
+    476: {
       itemsToShow: 2,
       snapAlign: 'start' as const,
     },
-    1024: {
+    992: {
       itemsToShow: 3,
       snapAlign: 'start' as const,
     },
-    1200: {
+    1024: {
       itemsToShow: 4,
       snapAlign: 'start' as const,
     },
-    1600: {
+    1200: {
       itemsToShow: 5,
+      snapAlign: 'start' as const,
+    },
+    1600: {
+      itemsToShow: 6,
       snapAlign: 'start' as const,
     },
   },
 }
 
-const newContributors = ref([])
+const newContributors = ref()
 
 onMounted(async () => {
   try {
@@ -60,15 +68,14 @@ onMounted(async () => {
         <Carousel v-bind="carousel_config">
           <Slide v-for="(newContributor, index) in newContributors" :key="index">
             <puik-card class="wof-new-contributors__card">
-              <div>
-                <img
-                  class="wof-new-contributors__img"
-                  :src="`https://picsum.photos/seed/1/800/600`"
-                  :alt="newContributor"
-                />
-                <h3 class="puik-h3">{{ newContributor }}</h3>
-                <p class="puik-body-default">{{ newContributor }} contributions</p>
-              </div>
+              <img
+                class="wof-new-contributors__img"
+                :src="newContributor.avatar_url"
+                :alt="newContributor"
+              />
+              <h3 class="puik-h3">{{ newContributor.name ?? newContributor.login}}</h3>
+              <p class="puik-body-default">{{ newContributor.login }}</p>
+              <p class="puik-body-small">{{ newContributor.contributions }} contribution{{ newContributor.contributions > 1 ? "s" : "" }}</p>
             </puik-card>
           </Slide>
           <template #addons>
@@ -144,10 +151,13 @@ onMounted(async () => {
 }
 .wof-new-contributors__card {
   flex-grow: 1;
+  gap: 0.25rem;
+}
+.wof-new-contributors__card * {
+  margin-bottom: 0;
 }
 .wof-new-contributors__img {
   width: 100%;
-  height: 166px;
   object-fit: cover;
   object-position: center;
 }
