@@ -3,6 +3,10 @@ import { ref, onMounted } from 'vue'
 import TopCard from '@/views/components/TopCard.vue'
 import { type PuikTableHeader } from '@prestashopcorp/puik-components'
 
+defineProps<{
+  topCompanies: any
+}>()
+
 const headers: PuikTableHeader[] = [
   {
     text: 'Rank',
@@ -35,18 +39,6 @@ const headers: PuikTableHeader[] = [
 const stickyLastCol = ref(false)
 const fullWidth = ref(true)
 
-const topCompanies = ref()
-
-onMounted(async () => {
-  try {
-    const response = await fetch('https://contributors.prestashop-project.org/topcompanies.json')
-    if (!response.ok) throw new Error('Error loading top companies')
-    const data = await response.json()
-    topCompanies.value = data.slice(1, 6)
-  } catch (error) {
-    console.error('Error loading top companies:', error)
-  }
-})
 </script>
 
 <template>

@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import 'vue3-carousel/carousel.css'
-
 import { ref, onMounted } from 'vue'
 import { Carousel, Slide, Navigation } from 'vue3-carousel'
+
+defineProps<{
+  newContributors: any
+}>()
 
 const carousel_config = {
   itemsToShow: 1,
@@ -36,19 +39,6 @@ const carousel_config = {
     },
   },
 }
-
-const newContributors = ref()
-
-onMounted(async () => {
-  try {
-    const response = await fetch('https://contributors.prestashop-project.org/newcontributors.json')
-    if (!response.ok) throw new Error('Error loading new contributors')
-    const data = await response.json()
-    newContributors.value = data
-  } catch (error) {
-    console.error('Error :', error)
-  }
-})
 </script>
 
 <template>

@@ -1,28 +1,9 @@
 <script setup lang="ts">
+defineProps<{
+  totalContribs: number
+  prestaContribs: number
+}>()
 
-import { ref, onMounted } from 'vue'
-
-const topCompanies = ref<string | null>()
-const totalContribs = ref()
-const prestaContribs = ref()
-
-onMounted(async () => {
-  try {
-    const response = await fetch('https://contributors.prestashop-project.org/topcompanies.json')
-    if (!response.ok) throw new Error('Error loading top companies')
-    const data = await response.json()
-    topCompanies.value = data
-
-    const total = data.reduce((acc: number, company: any) => acc + company.contributions, 0)
-    totalContribs.value = total
-
-    const presta = data.find((c: any) => c.name.toLowerCase() === 'prestashop')
-    prestaContribs.value = presta.contributions
-
-  } catch (error) {
-    console.error('Error loading top companies:', error)
-  }
-})
 </script>
 
 <template>

@@ -2,14 +2,18 @@
 import TopContributorsView from '@/views/sections/sub-sections/TopContributorsView.vue';
 import TopCompaniesView from '@/views/sections/sub-sections/TopCompaniesView.vue';
 
+defineProps<{
+  topContributors: any
+  topCompanies: any
+}>()
 </script>
 
 <template>
   <section class="wof-section wof-top-section">
     <h2 class="puik-h1">PrestaShop Project’s top contributors</h2>
     <div class="wof-top-section__cards">
-      <TopCompaniesView />
-      <TopContributorsView />
+      <TopCompaniesView :top-companies="topCompanies" />
+      <TopContributorsView :top-contributors="topContributors" />
     </div>
   </section>
 </template>

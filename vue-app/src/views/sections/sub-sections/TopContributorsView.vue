@@ -4,6 +4,10 @@ import TopCard from '@/views/components/TopCard.vue'
 import TopModal from '@/views/components/TopModal.vue'
 import { type PuikTableHeader } from '@prestashopcorp/puik-components'
 
+defineProps<{
+  topContributors: any
+}>()
+
 const headers: PuikTableHeader[] = [
   {
     text: 'Rank',
@@ -43,10 +47,7 @@ const headers: PuikTableHeader[] = [
 const stickyLastCol = ref(false)
 const fullWidth = ref(true)
 
-const contributorsData = ref()
-const topContributors = ref()
 const modalContributorItem = ref()
-
 const isModalOpen = ref(false)
 const openModal = (contributor: any) => {
   modalContributorItem.value = contributor
@@ -55,18 +56,6 @@ const openModal = (contributor: any) => {
 const closeModal = () => {
   isModalOpen.value = false
 }
-
-onMounted(async () => {
-  try {
-    const response = await fetch('https://contributors.prestashop-project.org/contributors.json')
-    if (!response.ok) throw new Error('Error loading contributors data')
-    const data = await response.json()
-    contributorsData.value = Object.values(data)
-    topContributors.value = contributorsData.value.slice(0, 5)
-  } catch (error) {
-    console.error('Error :', error)
-  }
-})
 </script>
 
 <template>
