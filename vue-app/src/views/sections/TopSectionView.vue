@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TopContributorsView from './sub-sections/TopContributorsView.vue';
-import TopCompaniesView from './sub-sections/TopCompaniesView.vue';
+import TopContributorsView from '@/views/sections/sub-sections/TopContributorsView.vue';
+import TopCompaniesView from '@/views/sections/sub-sections/TopCompaniesView.vue';
 
 </script>
 

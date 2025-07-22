@@ -15,13 +15,13 @@ const close = () => emit('close')
 
 <template>
   <puik-modal
-    id="wof-top-modal"
+    class="wof-top-modal"
     size="large"
     variant="feedback"
     :is-open="isOpen"
     @close="close"
   >
-    <div class="wof-top-modal">
+    <div class="wof-top-modal__container">
       <div class="wof-top-modal__side-content">
         <div class="wof-top-modal__avatar">
           <img :src="contributor.avatar_url" alt="contributor avatar" />
@@ -39,9 +39,9 @@ const close = () => emit('close')
           class="wof-top-modal__side-content__item"
         >
           <puik-icon icon="location_on" :fill="0" />
-          <div class="wof-top-modal__side-content__item--infos">
-            <span class="wof-top-modal__side-content__item--title puik-body-default">Location</span>
-            <span class="wof-top-modal__side-content__item--value puik-body-default">{{ contributor.location }}</span>
+          <div class="wof-top-modal__side-content__item-infos">
+            <span class="wof-top-modal__side-content__item-title puik-body-default">Location</span>
+            <span class="wof-top-modal__side-content__item-value puik-body-default">{{ contributor.location }}</span>
           </div>
         </div>
         <div
@@ -49,9 +49,9 @@ const close = () => emit('close')
           class="wof-top-modal__side-content__item"
         >
           <puik-icon icon="work" :fill="0" />
-          <div class="wof-top-modal__side-content__item--infos">
-            <span class="wof-top-modal__side-content__item--title puik-body-default">Current role(s)</span>
-            <span class="wof-top-modal__side-content__item--value puik-body-default">{{ contributor.company }}</span>
+          <div class="wof-top-modal__side-content__item-infos">
+            <span class="wof-top-modal__side-content__item-title puik-body-default">Current role(s)</span>
+            <span class="wof-top-modal__side-content__item-value puik-body-default">{{ contributor.company }}</span>
           </div>
         </div>
         <div
@@ -59,13 +59,13 @@ const close = () => emit('close')
           class="wof-top-modal__side-content__item"
         >
           <puik-icon icon="location_on" :fill="0" />
-          <div class="wof-top-modal__side-content__item--infos">
-            <span class="wof-top-modal__side-content__item--title puik-body-default">GitHub</span>
+          <div class="wof-top-modal__side-content__item-infos">
+            <span class="wof-top-modal__side-content__item-title puik-body-default">GitHub</span>
             <puik-link
               :href="contributor.html_url"
               target="_blank"
               aria-label="contributor github"
-              class="wof-top-modal__side-content__item--value puik-body-default"
+              class="wof-top-modal__side-content__item-value puik-body-default"
             >
               {{ contributor.html_url }}
             </puik-link>
@@ -76,13 +76,13 @@ const close = () => emit('close')
           class="wof-top-modal__side-content__item"
         >
           <puik-icon icon="desktop_mac" :fill="0" />
-          <div class="wof-top-modal__side-content__item--infos">
-            <span class="wof-top-modal__side-content__item--title puik-body-default">Website</span>
+          <div class="wof-top-modal__side-content__item-infos">
+            <span class="wof-top-modal__side-content__item-title puik-body-default">Website</span>
             <puik-link
               :href="contributor.blog"
               target="_blank"
               aria-label="contributor blog"
-              class="wof-top-modal__side-content__item--value puik-body-default"
+              class="wof-top-modal__side-content__item-value puik-body-default"
             >
               {{ contributor.blog }}
             </puik-link>
@@ -108,7 +108,11 @@ const close = () => emit('close')
 </template>
 
 <style>
-.wof-top-modal {
+.wof-top-modal .puik-modal__dialogPanelContainer__dialogPanel {
+  background-color: #DDDDDD;
+  padding: 0;
+}
+.wof-top-modal__container {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -120,10 +124,6 @@ const close = () => emit('close')
 }
 .wof-top-modal__title h3 {
   margin-bottom: 0;
-}
-#wof-top-modal .puik-modal__dialogPanelContainer__dialogPanel {
-  background-color: #DDDDDD;
-  padding: 0;
 }
 .wof-top-modal__side-content {
   padding: 40px;
@@ -153,14 +153,14 @@ const close = () => emit('close')
   align-items: start;
   gap: 0.5rem;
 }
-.wof-top-modal__side-content__item--infos {
+.wof-top-modal__side-content__item-infos {
   display: flex;
   flex-direction: column;
 }
-.wof-top-modal__side-content__item--title {
+.wof-top-modal__side-content__item-title {
   line-height: 1;
 }
-.wof-top-modal__side-content__item--value {
+.wof-top-modal__side-content__item-value {
   color: #5E5E5E;
 }
 .wof-top-modal__main-content {
