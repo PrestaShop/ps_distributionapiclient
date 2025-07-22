@@ -32,7 +32,7 @@ onMounted(async () => {
     const data: Company[] = await response.json()
     topCompanies.value = data.slice(1, 6)
 
-    const total = data.reduce((acc, company) => acc + company.contributions, 0)
+    const total: number = data.reduce((acc: number, company: Company) => acc + company.contributions, 0)
     totalContribs.value = total
 
     const presta = data.find(c => c.name.toLowerCase() === 'prestashop')

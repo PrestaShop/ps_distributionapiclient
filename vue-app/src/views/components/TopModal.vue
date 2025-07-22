@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { Contributor } from '@/types';
+
 const props = defineProps<{
-  contributor: any
+  contributor: Contributor
   isOpen: boolean
 }>()
 
