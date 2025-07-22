@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import TopCard from '@/views/components/TopCard.vue'
-import { type PuikTableHeader } from '@prestashopcorp/puik-components'
+import type { PuikTableHeader } from '@prestashopcorp/puik-components'
+import type { Company } from '@/types'
 
 defineProps<{
-  topCompanies: any
+  topCompanies: Company[]
 }>()
 
 const headers: PuikTableHeader[] = [

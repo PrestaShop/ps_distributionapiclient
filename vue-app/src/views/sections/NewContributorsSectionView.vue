@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import 'vue3-carousel/carousel.css'
-import { ref, onMounted } from 'vue'
 import { Carousel, Slide, Navigation } from 'vue3-carousel'
+import type { NewContributor } from '@/types'
 
 defineProps<{
-  newContributors: any
+  newContributors: NewContributor[]
 }>()
 
 const carousel_config = {
@@ -55,7 +55,7 @@ const carousel_config = {
           <img
             class="wof-new-contributors-section__img"
             :src="newContributor.avatar_url"
-            :alt="newContributor"
+            :alt="`${newContributor.name ?? newContributor.login} avatar`"
           />
           <h3 class="puik-h3">{{ newContributor.name ?? newContributor.login}}</h3>
           <p class="puik-body-default">{{ newContributor.login }}</p>

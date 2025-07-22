@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import TopContributorsView from '@/views/sections/sub-sections/TopContributorsView.vue';
 import TopCompaniesView from '@/views/sections/sub-sections/TopCompaniesView.vue';
+import type { Contributor, Company } from '@/types';
 
 defineProps<{
-  topContributors: any
-  topCompanies: any
+  topContributors: Contributor[]
+  topCompanies: Company[]
 }>()
 </script>
 

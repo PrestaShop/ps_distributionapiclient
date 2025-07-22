@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import TopCard from '@/views/components/TopCard.vue'
 import TopModal from '@/views/components/TopModal.vue'
-import { type PuikTableHeader } from '@prestashopcorp/puik-components'
+import type { PuikTableHeader } from '@prestashopcorp/puik-components'
+import type { Contributor } from '@/types'
 
 defineProps<{
-  topContributors: any
+  topContributors: Contributor[]
 }>()
 
 const headers: PuikTableHeader[] = [

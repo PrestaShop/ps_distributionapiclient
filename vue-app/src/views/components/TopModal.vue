@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { PuikTag, PuikLink, PuikIcon, PuikCard, PuikModal } from '@prestashopcorp/puik-components'
-
 const props = defineProps<{
   contributor: any
   isOpen: boolean
