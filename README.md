@@ -18,6 +18,7 @@ You can report issues with this module in the main PrestaShop repository. [Click
 Required only for development:
 
 - composer
+- Node 20 or later
 
 ## Installation
 
@@ -28,8 +29,8 @@ composer dump-autoload -o
 ```
 
 Build assets (for local development)
+
 ```bash
-# Using Node 20
 cd vue-app
 pnpm install
 pnpm  build
