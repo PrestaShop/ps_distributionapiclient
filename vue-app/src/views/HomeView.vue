@@ -30,13 +30,13 @@ onMounted(async () => {
     const response = await fetch('https://contributors.prestashop-project.org/topcompanies.json')
     if (!response.ok) throw new Error('Error loading top companies')
     const data: Company[] = await response.json()
-    topCompanies.value = data.slice(1, 6)
+    topCompanies.value = data.slice(0, 5)
 
-    const total: number = data.reduce((acc: number, company: Company) => acc + company.contributions, 0)
-    totalContribs.value = total
+    // const total: number = data.reduce((acc: number, company: Company) => acc + company.contributions, 0)
+    // totalContribs.value = total
 
-    const presta = data.find(c => c.name.toLowerCase() === 'prestashop')
-    prestaContribs.value = presta ? presta.contributions : 0
+    // const presta = data.find((c) => c.name.toLowerCase() === 'prestashop')
+    // prestaContribs.value = presta ? presta.contributions : 0
   } catch (error) {
     console.error('Error loading top companies:', error)
   }
@@ -44,9 +44,43 @@ onMounted(async () => {
   try {
     const response = await fetch('https://contributors.prestashop-project.org/contributors.json')
     if (!response.ok) throw new Error('Error loading contributors data')
-    const data: Record<string, Contributor> = await response.json()
-    contributorsData.value = Object.values(data)
-    topContributors.value = contributorsData.value.slice(0, 5)
+
+    const data = await response.json()
+
+    // Filter out non-contributor entries and nulls (e.g., "updatedAt") from the JSON object
+    const contributorsOnly = Object.values(data).filter(
+      (item): item is Contributor =>
+        item !== null && typeof item === 'object' && 'contributions' in item,
+    )
+    contributorsData.value = contributorsOnly
+    topContributors.value = contributorsOnly.slice(0, 5)
+
+    totalContribs.value = contributorsOnly.reduce(
+      // (acc, contributor) => acc + (contributor.categories?.core?.repositories?.PrestaShop || 0),
+      (acc, contributor) => acc + (contributor.contributions || 0),
+      0,
+    )
+
+    const matchingCompanies: string[] = []
+
+    prestaContribs.value = contributorsOnly
+      .filter((contributor) => {
+        const company = contributor.company?.toLowerCase() || ''
+        const isPresta = company.includes('prestashop')
+        const isStratis = company.includes('stratis')
+        const matches = isPresta && !isStratis
+
+        if (matches && contributor.company) {
+          matchingCompanies.push(contributor.company.trim())
+        }
+
+        return matches
+      })
+      .reduce((acc, contributor) => acc + contributor.contributions, 0)
+
+    // const uniqueMatchingCompanies = [...new Set(matchingCompanies)]
+    // console.log('[Unique matching companies with "prestashop"]:', uniqueMatchingCompanies)
+
   } catch (error) {
     console.error('Error loading contributors data:', error)
   }
@@ -55,18 +89,10 @@ onMounted(async () => {
 
 <template>
   <div class="wof-container">
-    <HeaderSectionView
-      :total-contribs="totalContribs"
-      :presta-contribs="prestaContribs"
-    />
+    <HeaderSectionView :total-contribs="totalContribs" :presta-contribs="prestaContribs" />
     <main>
-      <TopSectionView
-        :top-contributors="topContributors"
-        :top-companies="topCompanies"
-      />
-      <NewContributorsSectionView
-        :new-contributors="newContributors"
-      />
+      <TopSectionView :top-contributors="topContributors" :top-companies="topCompanies" />
+      <NewContributorsSectionView :new-contributors="newContributors" />
       <!--
       <WallOfFameSectionView />
       -->
