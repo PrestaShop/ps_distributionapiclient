@@ -43,3 +43,10 @@ const emit = defineEmits<{
     </puik-table>
   </puik-card>
 </template>
+
+<style>
+.wof-top-section__card h3,
+.wof-top-section__card p {
+  margin-bottom: 1rem;
+}
+</style>

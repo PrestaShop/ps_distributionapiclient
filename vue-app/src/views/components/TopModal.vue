@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Contributor } from '@/types';
+import type { Contributor } from '@/types'
 
 const props = defineProps<{
   contributor: Contributor
@@ -21,6 +21,9 @@ const close = () => emit('close')
     :is-open="isOpen"
     @close="close"
   >
+    <puik-button class="wof-top-modal__close-btn" variant="text" size="sm" @click="close">
+      <puik-icon icon="close" font-size="1.25rem"/>
+    </puik-button>
     <div class="wof-top-modal__container">
       <div class="wof-top-modal__side-content">
         <div class="wof-top-modal__avatar">
@@ -28,36 +31,29 @@ const close = () => emit('close')
         </div>
         <div class="wof-top-modal__title">
           <h3 class="puik-h3">{{ contributor.name }}</h3>
-          <puik-tag
-            v-if="contributor.company"
-            :content="contributor.company"
-            variant="blue"
-          />
+          <puik-tag v-if="contributor.company" :content="contributor.company" variant="blue" />
         </div>
-        <div
-          v-if="contributor.location"
-          class="wof-top-modal__side-content__item"
-        >
+        <div v-if="contributor.location" class="wof-top-modal__side-content__item">
           <puik-icon icon="location_on" :fill="0" />
           <div class="wof-top-modal__side-content__item-infos">
             <span class="wof-top-modal__side-content__item-title puik-body-default">Location</span>
-            <span class="wof-top-modal__side-content__item-value puik-body-default">{{ contributor.location }}</span>
+            <span class="wof-top-modal__side-content__item-value puik-body-default">
+              {{ contributor.location }}
+            </span>
           </div>
         </div>
-        <div
-          v-if="contributor.company"
-          class="wof-top-modal__side-content__item"
-        >
+        <div v-if="contributor.company" class="wof-top-modal__side-content__item">
           <puik-icon icon="work" :fill="0" />
           <div class="wof-top-modal__side-content__item-infos">
-            <span class="wof-top-modal__side-content__item-title puik-body-default">Current role(s)</span>
-            <span class="wof-top-modal__side-content__item-value puik-body-default">{{ contributor.company }}</span>
+            <span class="wof-top-modal__side-content__item-title puik-body-default">
+              Current role(s)
+            </span>
+            <span class="wof-top-modal__side-content__item-value puik-body-default">
+              {{ contributor.company}}
+            </span>
           </div>
         </div>
-        <div
-          v-if="contributor.html_url"
-          class="wof-top-modal__side-content__item"
-        >
+        <div v-if="contributor.html_url" class="wof-top-modal__side-content__item">
           <puik-icon icon="location_on" :fill="0" />
           <div class="wof-top-modal__side-content__item-infos">
             <span class="wof-top-modal__side-content__item-title puik-body-default">GitHub</span>
@@ -71,10 +67,7 @@ const close = () => emit('close')
             </puik-link>
           </div>
         </div>
-        <div
-          v-if="contributor.blog"
-          class="wof-top-modal__side-content__item"
-        >
+        <div v-if="contributor.blog" class="wof-top-modal__side-content__item">
           <puik-icon icon="desktop_mac" :fill="0" />
           <div class="wof-top-modal__side-content__item-infos">
             <span class="wof-top-modal__side-content__item-title puik-body-default">Website</span>
@@ -108,15 +101,20 @@ const close = () => emit('close')
 </template>
 
 <style>
+.wof-top-modal__close-btn {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
 .wof-top-modal .puik-modal__dialogPanelContainer__dialogPanel {
-  background-color: #DDDDDD;
+  background-color: #dddddd;
   padding: 0;
 }
 .wof-top-modal__container {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  background-color: #DDDDDD;
+  background-color: #dddddd;
   overflow: auto;
   @media screen and (min-width: 768px) {
     flex-direction: row;
@@ -161,7 +159,7 @@ const close = () => emit('close')
   line-height: 1;
 }
 .wof-top-modal__side-content__item-value {
-  color: #5E5E5E;
+  color: #5e5e5e;
 }
 .wof-top-modal__main-content {
   padding: 40px;
@@ -183,7 +181,7 @@ const close = () => emit('close')
   flex-direction: column;
   gap: 0;
 }
-.wof-top-modal__categories__card p{
+.wof-top-modal__categories__card p {
   margin: 0;
 }
 </style>
