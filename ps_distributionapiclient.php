@@ -113,7 +113,7 @@ class Ps_Distributionapiclient extends Module
         }
         $parentTab->save();
 
-        // Création du sous-onglet "Wall of Fame"
+        // Creation of the sub tab "Wall of Fame"
         $childClass = 'AdminPsdistributionapiclient';
         $childTabId = Tab::getIdFromClassName($childClass);
         $childTab = new Tab($childTabId ?: null);
