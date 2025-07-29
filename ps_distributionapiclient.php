@@ -108,6 +108,8 @@ class Ps_Distributionapiclient extends Module
         $parentTab->class_name = $parentClass;
         $parentTab->id_parent = 0;
         $parentTab->module = $this->name;
+        $parentTab->wording = 'Community';
+        $parentTab->wording_domain = 'Modules.Distributionapiclient.Admin';
         foreach (Language::getLanguages() as $lang) {
             $parentTab->name[$lang['id_lang']] = $this->trans('Community', [], 'Modules.Distributionapiclient.Admin', $lang['locale']);
         }
