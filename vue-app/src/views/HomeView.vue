@@ -73,7 +73,7 @@ onMounted(async () => {
       <TopSectionView :top-contributors="topContributors" :top-companies="topCompanies" />
       <NewContributorsSectionView :new-contributors="newContributors" />
       <ContributeSectionView
-        contributeLink="https://devdocs.prestashop-project.org/8/contribute/contribute-pull-requests/"
+        contributeLink="https://devdocs.prestashop-project.org/9/contribute/contribute-pull-requests/"
         slackLink="https://www.prestashop-project.org/slack/"
       />
     </main>
