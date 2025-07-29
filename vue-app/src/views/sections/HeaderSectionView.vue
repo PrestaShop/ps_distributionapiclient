@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
-  totalContribs: number
-  prestaContribs: number
+  totalMergedPr: number
+  prestaMergedPrByPercent: number
 }>()
 
 </script>
@@ -19,20 +19,20 @@ defineProps<{
     </p>
     <div class="wof-header-section__kpis-container">
       <div class="wof-header-section__kpis-item">
-        <span class="wof-header-section__kpis-value puik-brand-h1">{{ totalContribs }}</span>
-        <span class="wof-header-section__kpis-label puik-body-default">Total Contributions</span>
+        <span class="wof-header-section__kpis-value puik-brand-h1">{{ totalMergedPr }}</span>
+        <span class="wof-header-section__kpis-label puik-body-default">Total Merged Pull Requests</span>
       </div>
       <div class="wof-header-section__kpis-item">
         <span class="wof-header-section__kpis-value puik-brand-h1">
-          {{ Math.round((prestaContribs / totalContribs) * 100) }}%
+          {{ prestaMergedPrByPercent }}%
         </span>
-        <span class="wof-header-section__kpis-label puik-body-default">Contribs by PrestaShop</span>
+        <span class="wof-header-section__kpis-label puik-body-default">Merged Pull Requests by PrestaShop</span>
       </div>
       <div class="wof-header-section__kpis-item">
         <span class="wof-header-section__kpis-value puik-brand-h1">
-          {{ Math.round(100 - (prestaContribs / totalContribs) * 100) }}%
+            {{ (100 - prestaMergedPrByPercent).toFixed(2) }}%
         </span>
-        <span class="wof-header-section__kpis-label puik-body-default">Contribs by Community</span>
+        <span class="wof-header-section__kpis-label puik-body-default">Merged Pull Requests by Community</span>
       </div>
     </div>
   </header>

@@ -5,12 +5,11 @@ import { ref, onMounted } from 'vue'
 import HeaderSectionView from '@/views/sections/HeaderSectionView.vue'
 import TopSectionView from '@/views/sections/TopSectionView.vue'
 import NewContributorsSectionView from '@/views/sections/NewContributorsSectionView.vue'
-// import WallOfFameSectionView from '@/views/sections/WallOfFameSectionView.vue'
 import ContributeSectionView from '@/views/sections/ContributeSectionView.vue'
 import type { Company, Contributor, NewContributor } from '@/types'
 
-const totalContribs = ref<number>(0)
-const prestaContribs = ref<number>(0)
+const totalMergedPr = ref<number>(0)
+const prestaMergedPrbyPercent = ref<number>(0)
 const topCompanies = ref<Company[]>([])
 const contributorsData = ref<Contributor[]>([])
 const topContributors = ref<Contributor[]>([])
@@ -29,14 +28,17 @@ onMounted(async () => {
   try {
     const response = await fetch('https://contributors.prestashop-project.org/topcompanies.json')
     if (!response.ok) throw new Error('Error loading top companies')
-    const data: Company[] = await response.json()
-    topCompanies.value = data.slice(1, 6)
+    const data = await response.json()
+    topCompanies.value = data.companies.slice(0, 5)
 
-    const total: number = data.reduce((acc: number, company: Company) => acc + company.contributions, 0)
-    totalContribs.value = total
+    const total: number =
+      data.companies.reduce((acc: number, company: Company) => acc + company.merged_pull_requests, 0)
+      + data.community.merged_pull_requests
+    totalMergedPr.value = total ?? 0
 
-    const presta = data.find(c => c.name.toLowerCase() === 'prestashop')
-    prestaContribs.value = presta ? presta.contributions : 0
+    const prestashopCompany = data.companies.find((company: Company) => company.name === 'PrestaShop')
+    prestaMergedPrbyPercent.value = prestashopCompany.pull_requests_percent ?? 0
+
   } catch (error) {
     console.error('Error loading top companies:', error)
   }
@@ -44,9 +46,17 @@ onMounted(async () => {
   try {
     const response = await fetch('https://contributors.prestashop-project.org/contributors.json')
     if (!response.ok) throw new Error('Error loading contributors data')
-    const data: Record<string, Contributor> = await response.json()
-    contributorsData.value = Object.values(data)
-    topContributors.value = contributorsData.value.slice(0, 5)
+
+    const data = await response.json()
+
+    // Filter out non-contributor entries and nulls (e.g., "updatedAt") from the JSON object
+    const contributorsOnly = Object.values(data).filter(
+      (item): item is Contributor =>
+        item !== null && typeof item === 'object' && 'contributions' in item,
+    )
+    contributorsData.value = contributorsOnly
+    topContributors.value = contributorsOnly.slice(0, 5)
+
   } catch (error) {
     console.error('Error loading contributors data:', error)
   }
@@ -56,20 +66,12 @@ onMounted(async () => {
 <template>
   <div class="wof-container">
     <HeaderSectionView
-      :total-contribs="totalContribs"
-      :presta-contribs="prestaContribs"
+      :total-merged-pr="totalMergedPr"
+      :presta-merged-pr-by-percent="prestaMergedPrbyPercent"
     />
     <main>
-      <TopSectionView
-        :top-contributors="topContributors"
-        :top-companies="topCompanies"
-      />
-      <NewContributorsSectionView
-        :new-contributors="newContributors"
-      />
-      <!--
-      <WallOfFameSectionView />
-      -->
+      <TopSectionView :top-contributors="topContributors" :top-companies="topCompanies" />
+      <NewContributorsSectionView :new-contributors="newContributors" />
       <ContributeSectionView />
     </main>
   </div>

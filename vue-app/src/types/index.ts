@@ -2,7 +2,8 @@
 export interface Company {
   name: string
   rank: number
-  contributions: number
+  merged_pull_requests: number
+  pull_requests_percent: number
   avatar_url: string
   html_url: string
 }
