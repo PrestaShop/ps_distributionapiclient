@@ -1,3 +1,10 @@
+<script setup lang="ts">
+defineProps<{
+  contributeLink: string
+  slackLink: string
+}>()
+</script>
+
 <template>
   <section class="wof-section wof-contribute-section">
     <div class="wof-contribute-section__content">
@@ -10,11 +17,11 @@
     <div class="wof-contribute-section__links">
       <puik-button
         variant="primary"
-        href="https://github.com/PrestaShop/PrestaShop/blob/develop/CONTRIBUTING.md"
+        :href="contributeLink"
       >
         Contribute
       </puik-button>
-      <puik-button variant="secondary" href="https://www.prestashop-project.org/slack/">
+      <puik-button variant="secondary" :href="slackLink">
         Join Slack
       </puik-button>
     </div>
