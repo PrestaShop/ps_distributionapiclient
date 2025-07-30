@@ -110,6 +110,7 @@ class Ps_Distributionapiclient extends Module
         $parentTab->module = $this->name;
         $parentTab->wording = 'Community';
         $parentTab->wording_domain = 'Modules.Distributionapiclient.Admin';
+        /** @var array{'id_lang': int, "locale": string} $lang */
         foreach (Language::getLanguages() as $lang) {
             $parentTab->name[$lang['id_lang']] = $this->trans('Community', [], 'Modules.Distributionapiclient.Admin', $lang['locale']);
         }
@@ -121,12 +122,13 @@ class Ps_Distributionapiclient extends Module
         $childTab = new Tab($childTabId ?: null);
         $childTab->active = true;
         $childTab->class_name = $childClass;
-        $childTab->id_parent = (int)Tab::getIdFromClassName($parentClass);
+        $childTab->id_parent = (int) Tab::getIdFromClassName($parentClass);
         $childTab->route_name = 'ps_distributionapiclient_top_contributors';
         $childTab->module = $this->name;
         $childTab->wording = 'Wall of Fame';
         $childTab->wording_domain = 'Modules.Distributionapiclient.Admin';
         $childTab->icon = 'groups';
+        /** @var array{'id_lang': int, "locale": string} $lang */
         foreach (Language::getLanguages() as $lang) {
             $childTab->name[$lang['id_lang']] = $this->trans('Wall of Fame', [], 'Modules.Distributionapiclient.Admin', $lang['locale']);
         }

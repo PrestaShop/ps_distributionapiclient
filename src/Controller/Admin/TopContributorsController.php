@@ -15,7 +15,7 @@ class TopContributorsController extends FrameworkBundleAdminController
     {
         return $this->render('@Modules/ps_distributionapiclient/views/templates/admin/top_contributors.html.twig', [
             'enableSidebar' => false,
-            'showContentHeader' => false,
+            'showContentHeader' => true,
         ]);
     }
 }
