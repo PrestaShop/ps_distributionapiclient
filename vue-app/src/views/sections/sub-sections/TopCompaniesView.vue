@@ -13,14 +13,14 @@ const headers: PuikTableHeader[] = [
     text: 'Rank',
     value: 'rank',
     size: 'sm',
-    align: 'left',
+    align: 'center',
     searchable: false,
   },
   {
-    text: 'Avatar',
-    value: 'avatar',
+    text: 'Logo',
+    value: 'logo',
     size: 'sm',
-    align: 'left',
+    align: 'center',
     searchable: false,
   },
   {
@@ -31,12 +31,19 @@ const headers: PuikTableHeader[] = [
     searchable: true,
   },
   {
-    text: 'Merged Pull Requests',
+    text: 'Contributions',
     value: 'merged_pull_requests',
     size: 'md',
     align: 'center',
     searchable: false,
-  }
+  },
+  {
+    value: 'actions',
+    size: 'sm',
+    align: 'center',
+    preventExpand: true,
+    searchSubmit: true,
+  },
 ]
 const stickyLastCol = ref(false)
 const fullWidth = ref(true)
@@ -65,7 +72,7 @@ const fullWidth = ref(true)
       </div>
     </template>
 
-    <template #item-avatar="{ item }">
+    <template #item-logo="{ item }">
       <puik-avatar v-if="item.avatar_url" size="large" type="photo" :src="item.avatar_url" />
       <puik-avatar v-else size="large" :first-name="item.name" :single-initial="false" />
     </template>
@@ -74,6 +81,14 @@ const fullWidth = ref(true)
       <div class="wof-top-contributors__name">
         <span class="puik-body-default">{{ item.name }}</span>
       </div>
+    </template>
+    <template #item-actions="{ item }">
+      <puik-button
+        :href="item.html_url"
+        variant="text"
+        right-icon="visibility"
+        aria-label="view profile"
+      />
     </template>
   </TopCard>
 </template>
