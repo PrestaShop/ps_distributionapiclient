@@ -26,14 +26,14 @@ const headers: PuikTableHeader[] = [
   {
     text: 'Name',
     value: 'name',
-    size: 'sm',
+    size: 'md',
     align: 'left',
     searchable: true,
   },
   {
     text: 'Contributions',
     value: 'merged_pull_requests',
-    size: 'md',
+    size: 'sm',
     align: 'center',
     searchable: false,
   },
@@ -83,12 +83,17 @@ const fullWidth = ref(true)
       </div>
     </template>
     <template #item-actions="{ item }">
-      <puik-button
+      <a
         :href="item.html_url"
-        variant="text"
-        right-icon="visibility"
-        aria-label="view profile"
-      />
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <puik-button
+          variant="text"
+          right-icon="visibility"
+          aria-label="view profile"
+        />
+      </a>
     </template>
   </TopCard>
 </template>

@@ -27,14 +27,14 @@ const headers: PuikTableHeader[] = [
   {
     text: 'Name',
     value: 'name',
-    size: 'sm',
+    size: 'md',
     align: 'left',
     searchable: true,
   },
   {
     text: 'Contributions',
     value: 'contributions',
-    size: 'md',
+    size: 'sm',
     align: 'center',
     searchable: false,
   },
