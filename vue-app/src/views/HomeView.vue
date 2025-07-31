@@ -95,4 +95,10 @@ onMounted(async () => {
 .puik-tag p {
   margin-bottom: 0;
 }
+a.puik-button:hover {
+  text-decoration: none;
+}
+.puik-avatar.puik-avatar--photo {
+  background-color: white;
+}
 </style>

@@ -15,15 +15,26 @@ defineProps<{
       </p>
     </div>
     <div class="wof-contribute-section__links">
-      <puik-button
-        variant="primary"
+      <a
         :href="contributeLink"
+        target="_blank"
+        aria-label="Contribute to PrestaShop"
+        rel="noopener noreferrer"
       >
-        Contribute
-      </puik-button>
-      <puik-button variant="secondary" :href="slackLink">
-        Join Slack
-      </puik-button>
+        <puik-button variant="primary">
+          Contribute
+        </puik-button>
+      </a>
+      <a
+        :href="slackLink"
+        target="_blank"
+        aria-label="join PrestaShop Slack Open Source"
+        rel="noopener noreferrer"
+      >
+        <puik-button variant="secondary">
+          Join Slack
+        </puik-button>
+      </a>
     </div>
   </section>
 </template>

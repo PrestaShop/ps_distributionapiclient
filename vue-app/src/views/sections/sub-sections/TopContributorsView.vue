@@ -14,27 +14,27 @@ const headers: PuikTableHeader[] = [
     text: 'Rank',
     value: 'rank',
     size: 'sm',
-    align: 'left',
+    align: 'center',
     searchable: false,
   },
   {
     text: 'Avatar',
     value: 'avatar',
     size: 'sm',
-    align: 'left',
+    align: 'center',
     searchable: false,
   },
   {
     text: 'Name',
     value: 'name',
-    size: 'sm',
+    size: 'md',
     align: 'left',
     searchable: true,
   },
   {
-    text: 'Total contributions',
+    text: 'Contributions',
     value: 'contributions',
-    size: 'md',
+    size: 'sm',
     align: 'center',
     searchable: false,
   },
@@ -64,6 +64,8 @@ const closeModal = () => {
   <TopCard
     title="🔥 Top contributors"
     description="These experts spent hours improving PrestaShop's quality."
+    external-link-content="View all"
+    external-link-href="https://contributors.prestashop-project.org/"
     :headers="headers"
     :items="topContributors"
     :stickyLastCol="stickyLastCol"

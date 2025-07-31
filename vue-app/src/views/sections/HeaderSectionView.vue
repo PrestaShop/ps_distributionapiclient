@@ -20,19 +20,19 @@ defineProps<{
     <div class="wof-header-section__kpis-container">
       <div class="wof-header-section__kpis-item">
         <span class="wof-header-section__kpis-value puik-brand-h1">{{ totalMergedPr }}</span>
-        <span class="wof-header-section__kpis-label puik-body-default">Total Merged Pull Requests</span>
+        <span class="wof-header-section__kpis-label puik-body-default">Total Contributions</span>
       </div>
       <div class="wof-header-section__kpis-item">
         <span class="wof-header-section__kpis-value puik-brand-h1">
           {{ prestaMergedPrByPercent }}%
         </span>
-        <span class="wof-header-section__kpis-label puik-body-default">Merged Pull Requests by PrestaShop</span>
+        <span class="wof-header-section__kpis-label puik-body-default">Contributions by PrestaShop</span>
       </div>
       <div class="wof-header-section__kpis-item">
         <span class="wof-header-section__kpis-value puik-brand-h1">
             {{ (100 - prestaMergedPrByPercent).toFixed(2) }}%
         </span>
-        <span class="wof-header-section__kpis-label puik-body-default">Merged Pull Requests by Community</span>
+        <span class="wof-header-section__kpis-label puik-body-default">Contributions by Community</span>
       </div>
     </div>
   </header>
