@@ -98,4 +98,7 @@ onMounted(async () => {
 a.puik-button:hover {
   text-decoration: none;
 }
+.puik-avatar.puik-avatar--photo {
+  background-color: white;
+}
 </style>
