@@ -86,12 +86,13 @@ const fullWidth = ref(true)
       <a
         :href="item.html_url"
         target="_blank"
+        aria-label="view profile"
         rel="noopener noreferrer"
       >
         <puik-button
           variant="text"
           right-icon="visibility"
-          aria-label="view profile"
+          aria-label="view profile icon"
         />
       </a>
     </template>
