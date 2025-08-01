@@ -11,7 +11,7 @@ defineProps<{
 
 <template>
   <section class="wof-section wof-top-section">
-    <h2 class="puik-h1">PrestaShop Project’s top contributors</h2>
+    <h2 class="wof-top-section__title puik-h1">PrestaShop Project’s top contributors</h2>
     <div class="wof-top-section__cards">
       <TopCompaniesView :top-companies="topCompanies" />
       <TopContributorsView :top-contributors="topContributors" />
@@ -21,22 +21,29 @@ defineProps<{
 
 <style>
 :root {
+  --wof-top-section-padding: 2.5rem 1rem;
+  --wof-top-section-padding-lg: 4rem;
   --wof-top-section-rank-first: #ffd999;
   --wof-top-section-rank-second: #eeeeee;
   --wof-top-section-rank-third: #e7bd94;
+}
+
+.wof-section.wof-top-section {
+  padding: var(--wof-top-section-padding);
+}
+@media (min-width: 768px) {
+  .wof-section.wof-top-section {
+    padding: var(--wof-top-section-padding-lg);
+  }
+}
+.wof-top-section__title {
+  margin-bottom: 0;
 }
 
 .wof-top-section__cards {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
-}
-.wof-top-section__card {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  max-width: 100%;
-  gap: 0 !important;
 }
 .wof-top-section__rank {
   width: 1.5rem;

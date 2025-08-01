@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <header class="wof-header-section">
+  <header class="wof-section wof-header-section">
     <h1 class="wof-header-section__title puik-brand-jumbotron">MEET our community Heroes</h1>
     <p class="wof-header-section__description puik-body-default">
       From day one, PrestaShop has thrived as an open-source platform powered by a talented
@@ -42,6 +42,7 @@ defineProps<{
 :root {
   --wof-header-section-bg: #1d1d1b;
   --wof-header-section-text: #ffffff;
+  --wof-description-max-width: 1200px;
 }
 
 .wof-header-section {
@@ -50,22 +51,18 @@ defineProps<{
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  padding: 1rem;
   background-color: var(--wof-header-section-bg);
-}
-@media (min-width: 768px) {
-  .wof-header-section {
-    padding: 4rem;
-  }
 }
 .wof-header-section * {
   color: var(--wof-header-section-text);
 }
 .wof-header-section__title {
+  margin-bottom: 0;
   text-align: center;
   text-transform: uppercase;
 }
 .wof-header-section__description {
+  max-width: var(--wof-description-max-width);
   text-align: center;
 }
 .wof-header-section__kpis-container {

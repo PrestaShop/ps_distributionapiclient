@@ -83,9 +83,11 @@ onMounted(async () => {
 <style>
 :root {
   --wof-section-gap: 1.5rem;
-  --wof-section-padding: 1rem;
+  --wof-section-padding: 2.5rem 1rem;
   --wof-section-padding-lg: 4rem;
   --wof-avatar-bg: #fff;
+  --wof-jumbotron-size-sm: 2.5rem;
+  --wof-h1-size-sm: 1.75rem;
 }
 
 .wof-section {
@@ -107,5 +109,13 @@ a.puik-button:hover {
 }
 .puik-avatar.puik-avatar--photo {
   background-color: var(--wof-avatar-bg);
+}
+@media (max-width: 768px) {
+  .puik-brand-jumbotron {
+    font-size: var(--wof-jumbotron-size-sm);
+  }
+  .puik-h1 {
+    font-size: var(--wof-h1-size-sm);
+  }
 }
 </style>

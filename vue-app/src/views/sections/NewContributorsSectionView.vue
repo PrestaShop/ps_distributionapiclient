@@ -44,7 +44,7 @@ const carousel_config = {
 <template>
   <section class="wof-section wof-new-contributors-section">
     <div>
-      <h2 class="puik-h2">👋 Say hello to our new contributors</h2>
+      <h2 class="wof-new-contributors-section__title puik-h2">👋 Say hello to our new contributors</h2>
       <p class="wof-new-contributors-section__description puik-body-default">
         Fresh commits, fresh faces. Meet the contributors who just joined!
       </p>
@@ -98,7 +98,11 @@ const carousel_config = {
 .wof-new-contributors-section__card * {
   margin-bottom: 0;
 }
+.wof-new-contributors-section__title {
+  margin-bottom: 1rem;
+}
 .wof-new-contributors-section__description {
+  margin-bottom: 0;
   padding-right: 96px;
 }
 .wof-new-contributors-section__img {
@@ -113,7 +117,7 @@ const carousel_config = {
   --vc-nav-height: 36px;
 }
 .wof-carousel__nav-container {
-  margin: 1rem 0 2rem 1rem;
+  margin: 1rem 0 1.5rem 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
