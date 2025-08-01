@@ -20,6 +20,12 @@ defineProps<{
 </template>
 
 <style>
+:root {
+  --wof-top-section-rank-first: #ffd999;
+  --wof-top-section-rank-second: #eeeeee;
+  --wof-top-section-rank-third: #e7bd94;
+}
+
 .wof-top-section__cards {
   display: flex;
   flex-wrap: wrap;
@@ -44,12 +50,12 @@ defineProps<{
   line-height: 0;
 }
 .wof-top-section__rank--first {
-  background-color: #ffd999;
+  background-color: var(--wof-top-section-rank-first);
 }
 .wof-top-section__rank--second {
-  background-color: #eeeeee;
+  background-color: var(--wof-top-section-rank-second);
 }
 .wof-top-section__rank--third {
-  background-color: #e7bd94;
+  background-color: var(--wof-top-section-rank-third);
 }
 </style>

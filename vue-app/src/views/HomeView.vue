@@ -81,15 +81,22 @@ onMounted(async () => {
 </template>
 
 <style>
+:root {
+  --wof-section-gap: 1.5rem;
+  --wof-section-padding: 1rem;
+  --wof-section-padding-lg: 4rem;
+  --wof-avatar-bg: #fff;
+}
+
 .wof-section {
-  padding: 1rem;
+  padding: var(--wof-section-padding);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--wof-section-gap);
 }
 @media (min-width: 768px) {
   .wof-section {
-    padding: 4rem;
+    padding: var(--wof-section-padding-lg);
   }
 }
 .puik-tag p {
@@ -99,6 +106,6 @@ a.puik-button:hover {
   text-decoration: none;
 }
 .puik-avatar.puik-avatar--photo {
-  background-color: white;
+  background-color: var(--wof-avatar-bg);
 }
 </style>

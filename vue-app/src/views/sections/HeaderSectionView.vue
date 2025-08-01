@@ -39,6 +39,11 @@ defineProps<{
 </template>
 
 <style>
+:root {
+  --wof-header-section-bg: #1d1d1b;
+  --wof-header-section-text: #ffffff;
+}
+
 .wof-header-section {
   display: flex;
   flex-direction: column;
@@ -46,7 +51,7 @@ defineProps<{
   justify-content: center;
   gap: 2rem;
   padding: 1rem;
-  background-color: #1d1d1b;
+  background-color: var(--wof-header-section-bg);
 }
 @media (min-width: 768px) {
   .wof-header-section {
@@ -54,7 +59,7 @@ defineProps<{
   }
 }
 .wof-header-section * {
-  color: white;
+  color: var(--wof-header-section-text);
 }
 .wof-header-section__title {
   text-align: center;

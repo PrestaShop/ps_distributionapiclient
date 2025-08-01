@@ -40,10 +40,14 @@ defineProps<{
 </template>
 
 <style>
+:root {
+  --wof-contribute-section-bg: #bde9c9;
+  --wof-contribute-section-link-hover-color: #ffffff;
+}
 .wof-contribute-section {
   justify-content: center;
   align-items: center;
-  background-color: #bde9c9;
+  background-color: var(--wof-contribute-section-bg);
 }
 .wof-contribute-section__content {
   display: flex;
@@ -58,6 +62,6 @@ defineProps<{
   text-decoration: none !important;
 }
 .wof-contribute-section__links a.puik-button--primary:hover {
-  color: white !important;
+  color: var(--wof-contribute-section-link-hover-color) !important;
 }
 </style>
