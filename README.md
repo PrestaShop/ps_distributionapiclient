@@ -3,6 +3,7 @@
 ## About
 
 Download & upgrade PrestaShop's native modules from your backoffice
+Display Github contributors in the new community section
 
 ## Compatibility
 
@@ -17,13 +18,25 @@ You can report issues with this module in the main PrestaShop repository. [Click
 Required only for development:
 
 - composer
+- Node 20 or later
 
 ## Installation
 
-Install all dependencies.
+Install composer dependencies.
+```bash
+composer install --no-dev
+composer dump-autoload -o
 ```
-composer install
+
+Build assets (for local development)
+
+```bash
+cd vue-app
+pnpm install
+pnpm  build
 ```
+
+This will build the Vue app in the `views/js/vue` folder.
 
 ## Contributing
 

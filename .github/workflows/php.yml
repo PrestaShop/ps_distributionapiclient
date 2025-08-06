@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        presta-version: [ 'nightly', '9.0.x' ]
+        presta-version: [ 'nightly', '9.0.0', '9.0.x' ]
         # The 8.4 compatibility is not available yet, this should be uncommented whe the dockers are ready
         # php-version: [ '8.1', '8.2', '8.3', '8.4' ]
         php-version: [ '8.1', '8.2', '8.3' ]

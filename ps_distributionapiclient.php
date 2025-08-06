@@ -38,7 +38,7 @@ class Ps_Distributionapiclient extends Module
         $this->displayName = $this->trans('Distribution API Client', [], 'Modules.Distributionapiclient.Admin');
         $this->description = $this->trans('Download and upgrade PrestaShop\'s native modules.', [], 'Modules.Distributionapiclient.Admin');
         $this->author = 'PrestaShop';
-        $this->version = '2.0.1';
+        $this->version = '2.1.0';
         $this->ps_versions_compliancy = ['min' => '9.0.0', 'max' => _PS_VERSION_];
         $this->tab = 'market_place';
         parent::__construct();
@@ -50,6 +50,7 @@ class Ps_Distributionapiclient extends Module
             && $this->registerHook('actionListModules')
             && $this->registerHook('actionBeforeInstallModule')
             && $this->registerHook('actionBeforeUpgradeModule')
+            && $this->registerTab()
         ;
     }
 
@@ -96,5 +97,43 @@ class Ps_Distributionapiclient extends Module
         $distributionApi = $this->get('distributionapiclient.distribution_api');
 
         return $distributionApi;
+    }
+
+    public function registerTab(): bool
+    {
+        $parentClass = 'AdminPsdistributionapiclientCommunity';
+        $parentTabId = Tab::getIdFromClassName($parentClass);
+        $parentTab = new Tab($parentTabId ?: null);
+        $parentTab->active = true;
+        $parentTab->class_name = $parentClass;
+        $parentTab->id_parent = 0;
+        $parentTab->module = $this->name;
+        $parentTab->wording = 'Community';
+        $parentTab->wording_domain = 'Modules.Distributionapiclient.Admin';
+        /** @var array{'id_lang': int, "locale": string} $lang */
+        foreach (Language::getLanguages() as $lang) {
+            $parentTab->name[$lang['id_lang']] = $this->trans('Community', [], 'Modules.Distributionapiclient.Admin', $lang['locale']);
+        }
+        $parentTab->save();
+
+        // Creation of the sub tab "Wall of Fame"
+        $childClass = 'AdminPsdistributionapiclient';
+        $childTabId = Tab::getIdFromClassName($childClass);
+        $childTab = new Tab($childTabId ?: null);
+        $childTab->active = true;
+        $childTab->class_name = $childClass;
+        $childTab->id_parent = (int) Tab::getIdFromClassName($parentClass);
+        $childTab->route_name = 'ps_distributionapiclient_top_contributors';
+        $childTab->module = $this->name;
+        $childTab->wording = 'Wall of Fame';
+        $childTab->wording_domain = 'Modules.Distributionapiclient.Admin';
+        $childTab->icon = 'groups';
+        /** @var array{'id_lang': int, "locale": string} $lang */
+        foreach (Language::getLanguages() as $lang) {
+            $childTab->name[$lang['id_lang']] = $this->trans('Wall of Fame', [], 'Modules.Distributionapiclient.Admin', $lang['locale']);
+        }
+        $childTab->save();
+
+        return true;
     }
 }
