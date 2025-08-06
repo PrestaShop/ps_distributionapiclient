@@ -33,7 +33,7 @@ const headers: PuikTableHeader[] = [
   },
   {
     text: 'Contributions',
-    value: 'contributions',
+    value: 'mergedPullRequests',
     size: 'sm',
     align: 'center',
     searchable: false,
@@ -91,8 +91,8 @@ const closeModal = () => {
 
     <template #item-name="{ item }">
       <div class="wof-top-contributors__name">
-        <span class="puik-body-default">{{ item.name }}</span>
-        <puik-tag :content="item.company" variant="blue" />
+        <span v-if="item.name" class="puik-body-default">{{ item.name }}</span>
+        <puik-tag v-if="item.company" :content="item.company" variant="blue" />
       </div>
     </template>
 

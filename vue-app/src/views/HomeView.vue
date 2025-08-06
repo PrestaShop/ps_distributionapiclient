@@ -44,7 +44,7 @@ onMounted(async () => {
   }
 
   try {
-    const response = await fetch('https://contributors.prestashop-project.org/contributors.json')
+    const response = await fetch('https://contributors.prestashop-project.org/contributors_prs.json')
     if (!response.ok) throw new Error('Error loading contributors data')
 
     const data = await response.json()
