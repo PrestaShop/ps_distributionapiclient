@@ -1,0 +1,7 @@
+ps_distributionapiclient_top_contributors:
+  path: /ps_distributionapiclient/top-contributors
+  methods: [GET]
+  defaults:
+    _controller: 'PrestaShop\Module\DistributionApiClient\Controller\Admin\TopContributorsController::index'
+    _legacy_controller: 'AdminPsdistributionapiclient'
+    _legacy_link: 'AdminPsdistributionapiclient'
