@@ -44,7 +44,7 @@ const carousel_config = {
 <template>
   <section class="wof-section wof-new-contributors-section">
     <div>
-      <h2 class="puik-h2">👋 Say hello to our new contributors</h2>
+      <h2 class="wof-new-contributors-section__title puik-h2">👋 Say hello to our new contributors</h2>
       <p class="wof-new-contributors-section__description puik-body-default">
         Fresh commits, fresh faces. Meet the contributors who just joined!
       </p>
@@ -79,8 +79,17 @@ const carousel_config = {
 </template>
 
 <style>
+:root {
+  --wof-new-contributors-section-bg: #a4dbe8;
+  --wof-carousel-nav-bg: #fff;
+  --wof-carousel-nav-border: #1d1d1b;
+  --wof-carousel-nav-disabled-bg: #f7f7f7;
+  --wof-carousel-nav-disabled-border: #ddd;
+  --wof-carousel-nav-hover: #000;
+}
+
 .wof-new-contributors-section {
-  background-color: #a4dbe8;
+  background-color: var(--wof-new-contributors-section-bg);
 }
 .wof-new-contributors-section__card {
   flex-grow: 1;
@@ -89,7 +98,11 @@ const carousel_config = {
 .wof-new-contributors-section__card * {
   margin-bottom: 0;
 }
+.wof-new-contributors-section__title {
+  margin-bottom: 1rem;
+}
 .wof-new-contributors-section__description {
+  margin-bottom: 0;
   padding-right: 96px;
 }
 .wof-new-contributors-section__img {
@@ -104,7 +117,7 @@ const carousel_config = {
   --vc-nav-height: 36px;
 }
 .wof-carousel__nav-container {
-  margin: 1rem 0 2rem 1rem;
+  margin: 1rem 0 1.5rem 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -115,9 +128,9 @@ const carousel_config = {
 }
 .wof-carousel__nav-container .carousel__next,
 .wof-carousel__nav-container .carousel__prev {
-  background: var(--vc-nav-background);
-  background-color: white;
-  border: 1px solid #1d1d1b;
+  background: var(--vc-nav-background, var(--wof-carousel-nav-bg));
+  background-color: var(--wof-carousel-nav-bg);
+  border: 1px solid var(--wof-carousel-nav-border);
   border-radius: var(--vc-nav-border-radius);
   color: var(--vc-nav-color);
   font-size: var(--vc-nav-height);
@@ -129,8 +142,8 @@ const carousel_config = {
 
 .wof-carousel__nav-container .carousel__next--disabled,
 .wof-carousel__nav-container .carousel__prev--disabled {
-  background-color: #f7f7f7;
-  border-color: #ddd;
+  background-color: var(--wof-carousel-nav-disabled-bg);
+  border-color: var(--wof-carousel-nav-disabled-border);
   opacity: 1;
 }
 
@@ -141,6 +154,6 @@ const carousel_config = {
 
 .wof-carousel__nav-container .carousel__next:hover,
 .wof-carousel__nav-container .carousel__prev:hover {
-  color: black;
+  color: var(--wof-carousel-nav-hover);
 }
 </style>

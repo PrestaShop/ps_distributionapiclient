@@ -19,13 +19,14 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <puik-card class="wof-top-section__card">
-    <div class="wof-top-section__title-container">
-      <h3 class="puik-h2">{{ title }}</h3>
+  <puik-card class="wof-top-card">
+    <div class="wof-top-card__title-container">
+      <h3 class="wof-top-card__title puik-h2">{{ title }}</h3>
       <puik-button
         v-if="externalLinkContent && externalLinkHref"
         variant="secondary"
         :aria-label="externalLinkContent"
+        class="wof-top-card__external-link"
       >
         <puik-link
           :href="externalLinkHref"
@@ -36,7 +37,7 @@ const emit = defineEmits<{
         </puik-link>
       </puik-button>
     </div>
-    <p v-if="description" class="puik-body-default">{{ description }}</p>
+    <p v-if="description" class="wof-top-card__description puik-body-default">{{ description }}</p>
 
     <puik-table
       v-if="items?.length"
@@ -62,13 +63,30 @@ const emit = defineEmits<{
 </template>
 
 <style>
-.wof-top-section__card h3,
-.wof-top-section__card p {
-  margin-bottom: 1rem;
+:root {
+  --wof-top-card-title-size-sm: 1.25rem;
 }
-.wof-top-section__title-container {
+.wof-top-card {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  max-width: 100%;
+  gap: 0 !important;
+}
+.wof-top-card__title-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.wof-top-card__title,
+.wof-top-card__description,
+.wof-top-card__external-link {
+  margin-bottom: 1rem;
+}
+@media (max-width: 768px) {
+  .wof-top-card__title {
+    font-size: var(--wof-top-card-title-size-sm);
+  }
+
 }
 </style>

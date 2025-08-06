@@ -101,20 +101,30 @@ const close = () => emit('close')
 </template>
 
 <style>
+:root {
+  --wof-color-bg-modal: #ffffff;
+  --wof-color-bg-modal-side-panel: #dddddd;
+  --wof-color-side-panel-item-value: #5e5e5e;
+  --wof-padding-top-modal: 8.5rem;
+}
+
 .wof-top-modal__close-btn {
   position: absolute;
   right: 1rem;
   top: 1rem;
 }
 .wof-top-modal .puik-modal__dialogPanelContainer__dialogPanel {
-  background-color: #dddddd;
+  background-color: var(--wof-color-bg-modal);
   padding: 0;
+}
+.wof-top-modal .puik-modal__dialogPanelContainer {
+  padding-top: var(--wof-padding-top-modal);
 }
 .wof-top-modal__container {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  background-color: #dddddd;
+  background-color: var(--wof-color-bg-modal-side-panel);
   overflow: auto;
   @media screen and (min-width: 768px) {
     flex-direction: row;
@@ -124,15 +134,18 @@ const close = () => emit('close')
   margin-bottom: 0;
 }
 .wof-top-modal__side-content {
-  padding: 40px;
+  padding: 20px;
   min-width: min-content;
   min-height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: self-start;
   gap: 1rem;
-  background-color: white;
+  background-color: var(--wof-color-bg-modal);
   overflow-y: auto;
+    @media screen and (min-width: 768px) {
+      padding: 40px;
+  }
 }
 .wof-top-modal__avatar {
   border-radius: 50%;
@@ -159,15 +172,19 @@ const close = () => emit('close')
   line-height: 1;
 }
 .wof-top-modal__side-content__item-value {
-  color: #5e5e5e;
+  color: var(--wof-color-side-panel-item-value);
 }
 .wof-top-modal__main-content {
-  padding: 40px;
+  padding: 20px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  min-height: fit-content;
   gap: 1rem;
   overflow: auto;
+  @media screen and (min-width: 768px) {
+    padding: 40px;
+  }
 }
 .wof-top-modal__categories {
   display: grid;
