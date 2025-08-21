@@ -60,6 +60,7 @@ services:
     public: true
 
   PrestaShop\Module\DistributionApiClient\Controller\Admin\TopContributorsController:
+    class: PrestaShop\Module\DistributionApiClient\Controller\Admin\TopContributorsController
     autowire: true
     autoconfigure: true
     public: true
