@@ -27,9 +27,7 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-function upgrade_module_2_1_0($module)
+function upgrade_module_2_1_0($module): bool
 {
-    $module->registerTab();
-
-    return $module;
+    return $module->registerTab();
 }
