@@ -177,6 +177,7 @@ class Ps_Distributionapiclient extends Module
         }
 
         $tab = new Tab($tabId);
+
         return (bool) $tab->active;
     }
 
