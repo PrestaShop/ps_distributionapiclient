@@ -32,6 +32,8 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 class Ps_Distributionapiclient extends Module
 {
+    const WALL_OF_FAME_TAB_CLASS_NAME = 'AdminPsdistributionapiclient';
+
     public function __construct()
     {
         $this->name = 'ps_distributionapiclient';
@@ -91,6 +93,103 @@ class Ps_Distributionapiclient extends Module
         $this->getDistributionApi()->downloadModule($params['moduleName']);
     }
 
+    public function getContent(): string
+    {
+        if (Tools::isSubmit('submitWallOfFameConfig')) {
+            $this->setWallOfFameTabStatus((bool) Tools::getValue('WALL_OF_FAME_ENABLED'));
+
+            Tools::redirectAdmin($this->context->link->getAdminLink('AdminModules') . '&configure=' . $this->name . '&conf=6');
+        }
+
+        return $this->renderForm();
+    }
+
+    private function renderForm(): string
+    {
+        $helper = new HelperForm();
+
+        $helper->show_toolbar = false;
+        $helper->table = $this->table;
+        $helper->module = $this;
+        $helper->default_form_language = $this->context->language->id;
+        $helper->allow_employee_form_lang = Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG', 0);
+
+        $helper->identifier = $this->identifier;
+        $helper->submit_action = 'submitWallOfFameConfig';
+        $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
+            . '&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name;
+        $helper->token = Tools::getAdminTokenLite('AdminModules');
+
+        $helper->tpl_vars = [
+            'fields_value' => [
+                'WALL_OF_FAME_ENABLED' => $this->isWallOfFameTabEnabled(),
+            ],
+            'languages' => $this->context->controller->getLanguages(),
+            'id_language' => $this->context->language->id,
+        ];
+
+        return $helper->generateForm([$this->getConfigForm()]);
+    }
+
+    private function getConfigForm(): array
+    {
+        return [
+            'form' => [
+                'legend' => [
+                    'title' => $this->trans('Wall of Fame configuration', [], 'Modules.Distributionapiclient.Admin'),
+                    'icon' => 'icon-cogs',
+                ],
+                'description' => $this->trans('The Wall of Fame tab displays the top contributors to the PrestaShop project. You can enable or disable this tab in the back office menu.', [], 'Modules.Distributionapiclient.Admin'),
+                'input' => [
+                    [
+                        'type' => 'switch',
+                        'label' => $this->trans('Enable Wall of Fame Tab', [], 'Modules.Distributionapiclient.Admin'),
+                        'name' => 'WALL_OF_FAME_ENABLED',
+                        'desc' => $this->isWallOfFameTabEnabled()
+                            ? $this->trans('The Wall of Fame tab is currently visible in the back office menu under Community.', [], 'Modules.Distributionapiclient.Admin')
+                            : $this->trans('The Wall of Fame tab is currently hidden from the back office menu.', [], 'Modules.Distributionapiclient.Admin'),
+                        'values' => [
+                            [
+                                'id' => 'active_on',
+                                'value' => 1,
+                                'label' => $this->trans('Enabled', [], 'Admin.Global'),
+                            ],
+                            [
+                                'id' => 'active_off',
+                                'value' => 0,
+                                'label' => $this->trans('Disabled', [], 'Admin.Global'),
+                            ],
+                        ],
+                    ],
+                ],
+                'submit' => [
+                    'title' => $this->trans('Save', [], 'Admin.Actions'),
+                ],
+            ],
+        ];
+    }
+
+    private function isWallOfFameTabEnabled(): bool
+    {
+        $tabId = Tab::getIdFromClassName(self::WALL_OF_FAME_TAB_CLASS_NAME);
+        if (!$tabId) {
+            return false;
+        }
+
+        $tab = new Tab($tabId);
+        return (bool) $tab->active;
+    }
+
+    private function setWallOfFameTabStatus(bool $enabled): void
+    {
+        $tabId = Tab::getIdFromClassName(self::WALL_OF_FAME_TAB_CLASS_NAME);
+        if ($tabId) {
+            $tab = new Tab($tabId);
+            $tab->active = $enabled;
+            $tab->save();
+        }
+    }
+
     private function getDistributionApi(): DistributionApi
     {
         /** @var DistributionApi $distributionApi */
@@ -117,11 +216,10 @@ class Ps_Distributionapiclient extends Module
         $parentTab->save();
 
         // Creation of the sub tab "Wall of Fame"
-        $childClass = 'AdminPsdistributionapiclient';
-        $childTabId = Tab::getIdFromClassName($childClass);
+        $childTabId = Tab::getIdFromClassName(self::WALL_OF_FAME_TAB_CLASS_NAME);
         $childTab = new Tab($childTabId ?: null);
         $childTab->active = true;
-        $childTab->class_name = $childClass;
+        $childTab->class_name = self::WALL_OF_FAME_TAB_CLASS_NAME;
         $childTab->id_parent = (int) Tab::getIdFromClassName($parentClass);
         $childTab->route_name = 'ps_distributionapiclient_top_contributors';
         $childTab->module = $this->name;
