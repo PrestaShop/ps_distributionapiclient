@@ -1,3 +1,9 @@
+ps_distributionapiclient_configuration:
+  path: /ps_distributionapiclient/configuration
+  methods: [GET, POST]
+  defaults:
+    _controller: 'PrestaShop\Module\DistributionApiClient\Controller\Admin\ConfigurationController::index'
+
 ps_distributionapiclient_top_contributors:
   path: /ps_distributionapiclient/top-contributors
   methods: [GET]
