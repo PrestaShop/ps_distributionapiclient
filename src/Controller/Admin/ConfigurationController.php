@@ -25,6 +25,7 @@ namespace PrestaShop\Module\DistributionApiClient\Controller\Admin;
 use PrestaShop\Module\DistributionApiClient\Form\Type\ConfigurationType;
 use PrestaShopBundle\Controller\Admin\PrestaShopAdminController;
 use PrestaShopBundle\Entity\Repository\TabRepository;
+use PrestaShopBundle\Twig\Layout\MenuLink;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -48,9 +49,10 @@ class ConfigurationController extends PrestaShopAdminController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var array{'wall_of_fame_enabled': bool} $data */
             $data = $form->getData();
 
-            $this->tabRepository->changeStatusByClassName(self::WALL_OF_FAME_TAB_CLASS_NAME, (bool) $data['wall_of_fame_enabled']);
+            $this->tabRepository->changeStatusByClassName(self::WALL_OF_FAME_TAB_CLASS_NAME, $data['wall_of_fame_enabled']);
 
             $this->addFlash('success', $this->trans('Settings updated.', [], 'Admin.Notifications.Success'));
 
@@ -62,6 +64,19 @@ class ConfigurationController extends PrestaShopAdminController
             'enableSidebar' => true,
             'layoutTitle' => $this->trans('Wall of Fame configuration', [], 'Modules.Distributionapiclient.Admin'),
             'form_theme' => '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig',
+            'layoutHeaderToolbarBtn' => [],
+            'help_link' => false,
+            'breadcrumbLinks' => [
+                'container' => new MenuLink(
+                    $this->trans('Distribution API Client', [], 'Modules.Distributionapiclient.Admin'),
+                    $this->generateUrl('ps_distributionapiclient_configuration'),
+                ),
+                'tab' => new MenuLink(
+                    $this->trans('Configuration', [], 'Admin.Global'),
+                    $this->generateUrl('ps_distributionapiclient_configuration'),
+                    'settings',
+                ),
+            ],
         ]);
     }
 

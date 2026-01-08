@@ -180,7 +180,7 @@ class DistributionApi
             if (!empty($metadataFileContent)) {
                 /** @var array<string, string>|false $metadata */
                 $metadata = json_decode($metadataFileContent, true);
-                if (!empty($metadata['distribution']) && !empty($metadata['distributionVersion'])) {
+                if (is_array($metadata) && !empty($metadata['distribution']) && !empty($metadata['distributionVersion'])) {
                     $url = sprintf('%s&distribution=%s&distribution_version=%s', $url, $metadata['distribution'], $metadata['distributionVersion']);
                 }
             }

@@ -95,6 +95,7 @@ class Ps_Distributionapiclient extends Module
 
     public function getContent(): void
     {
+        /** @var \Symfony\Component\Routing\RouterInterface $router */
         $router = $this->get('router');
 
         Tools::redirectAdmin($router->generate('ps_distributionapiclient_configuration'));
@@ -119,10 +120,12 @@ class Ps_Distributionapiclient extends Module
         $parentTab->module = $this->name;
         $parentTab->wording = 'Community';
         $parentTab->wording_domain = 'Modules.Distributionapiclient.Admin';
+        $parentTabName = [];
         /** @var array{'id_lang': int, "locale": string} $lang */
         foreach (Language::getLanguages() as $lang) {
-            $parentTab->name[$lang['id_lang']] = $this->trans('Community', [], 'Modules.Distributionapiclient.Admin', $lang['locale']);
+            $parentTabName[$lang['id_lang']] = $this->trans('Community', [], 'Modules.Distributionapiclient.Admin', $lang['locale']);
         }
+        $parentTab->name = $parentTabName;
         $parentTab->save();
 
         // Creation of the sub tab "Wall of Fame"
@@ -136,10 +139,12 @@ class Ps_Distributionapiclient extends Module
         $childTab->wording = 'Wall of Fame';
         $childTab->wording_domain = 'Modules.Distributionapiclient.Admin';
         $childTab->icon = 'groups';
+        $childTabName = [];
         /** @var array{'id_lang': int, "locale": string} $lang */
         foreach (Language::getLanguages() as $lang) {
-            $childTab->name[$lang['id_lang']] = $this->trans('Wall of Fame', [], 'Modules.Distributionapiclient.Admin', $lang['locale']);
+            $childTabName[$lang['id_lang']] = $this->trans('Wall of Fame', [], 'Modules.Distributionapiclient.Admin', $lang['locale']);
         }
+        $childTab->name = $childTabName;
         $childTab->save();
 
         return true;
