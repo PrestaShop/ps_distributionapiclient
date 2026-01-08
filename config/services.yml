@@ -58,6 +58,19 @@ services:
       - '%kernel.project_dir%'
     public: true
 
+  PrestaShop\Module\DistributionApiClient\Form\Type\ConfigurationType:
+    autowire: true
+    autoconfigure: true
+    public: true
+    arguments:
+      - '@translator'
+
+  PrestaShop\Module\DistributionApiClient\Controller\Admin\ConfigurationController:
+    autowire: true
+    autoconfigure: true
+    public: true
+    tags: ['controller.service_arguments']
+
   PrestaShop\Module\DistributionApiClient\Controller\Admin\TopContributorsController:
     autowire: true
     autoconfigure: true
