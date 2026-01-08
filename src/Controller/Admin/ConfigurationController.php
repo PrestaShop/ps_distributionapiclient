@@ -48,7 +48,9 @@ class ConfigurationController extends PrestaShopAdminController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->tabRepository->changeStatusByClassName(self::WALL_OF_FAME_TAB_CLASS_NAME, (bool) $form->getData()['wall_of_fame_enabled']);
+            $data = $form->getData();
+
+            $this->tabRepository->changeStatusByClassName(self::WALL_OF_FAME_TAB_CLASS_NAME, (bool) $data['wall_of_fame_enabled']);
 
             $this->addFlash('success', $this->trans('Settings updated.', [], 'Admin.Notifications.Success'));
 
@@ -65,6 +67,8 @@ class ConfigurationController extends PrestaShopAdminController
 
     private function isWallOfFameTabEnabled(): bool
     {
-        return $this->tabRepository->findOneByClassName(self::WALL_OF_FAME_TAB_CLASS_NAME)->getActive();
+        $tab = $this->tabRepository->findOneByClassName(self::WALL_OF_FAME_TAB_CLASS_NAME);
+
+        return $tab ? $tab->getActive() : false;
     }
 }

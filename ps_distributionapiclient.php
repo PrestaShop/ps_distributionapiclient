@@ -95,7 +95,9 @@ class Ps_Distributionapiclient extends Module
 
     public function getContent(): void
     {
-        Tools::redirectAdmin($this->get('router')->generate('ps_distributionapiclient_configuration'));
+        $router = $this->get('router');
+
+        Tools::redirectAdmin($router->generate('ps_distributionapiclient_configuration'));
     }
 
     private function getDistributionApi(): DistributionApi
