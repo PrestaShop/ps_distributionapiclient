@@ -1,13 +1,25 @@
 name: PHP tests
-on: [ push, pull_request ]
+on: [push, pull_request]
 jobs:
   # Check there is no syntax errors in the project
   php-linter:
-    name: PHP Syntax check
+    name: PHP Syntax check 7.2 => 8.5
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+
+      - name: PHP syntax checker 7.2
+        uses: prestashop/github-action-php-lint/7.2@master
+
+      - name: PHP syntax checker 7.3
+        uses: prestashop/github-action-php-lint/7.3@master
+
+      - name: PHP syntax checker 7.4
+        uses: prestashop/github-action-php-lint/7.4@master
+
+      - name: PHP syntax checker 8.0
+        uses: prestashop/github-action-php-lint/8.0@master
 
       - name: PHP syntax checker 8.1
         uses: prestashop/github-action-php-lint/8.1@master
@@ -21,76 +33,59 @@ jobs:
       - name: PHP syntax checker 8.4
         uses: prestashop/github-action-php-lint/8.4@master
 
+      - name: PHP syntax checker 8.5
+        uses: prestashop/github-action-php-lint/8.5@master
+
   # Check the PHP code follow the coding standards
   php-cs-fixer:
     name: PHP-CS-Fixer
     runs-on: ubuntu-latest
     steps:
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1'
-
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: vendor
-          key: php-${{ hashFiles('composer.lock') }}
-
-      - name: Install dependencies
-        run: composer install
-
       - name: Run PHP-CS-Fixer
-        run: ./vendor/bin/php-cs-fixer fix --dry-run --diff --using-cache=no
-
-  # Run PHPStan against the module and a PrestaShop release
-  phpstan:
-    name: PHPStan
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        presta-version: [ 'nightly', '9.0.0', '9.0.x' ]
-        # The 8.4 compatibility is not available yet, this should be uncommented whe the dockers are ready
-        # php-version: [ '8.1', '8.2', '8.3', '8.4' ]
-        php-version: [ '8.1', '8.2', '8.3' ]
-    steps:
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: PrestaShop/.github/.github/actions/php-ci/php-cs@master
         with:
           php-version: '7.4'
 
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      # Add vendor folder in cache to make next builds faster
-      - name: Cache vendor folder
-        uses: actions/cache@v4
+  # Run PHPStan against the module (PHP 8.1 – 8.5)
+  phpstan:
+    name: PHPStan (PHP 8.1 - 8.5)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        presta_version: ['9.1.x', 'develop', 'nightly']
+        php_version: ['8.1', '8.5']
+      fail-fast: false
+    env:
+      PHPRC: ${{ github.workspace }}/${{ github.event.repository.name }}/.phpstan-php-ini
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
         with:
-          path: vendor
-          key: php-${{ hashFiles('composer.lock') }}
+          path: ${{ github.event.repository.name }}
 
-      # Add composer local folder in cache to make next builds faster
-      - name: Cache composer folder
-        uses: actions/cache@v4
+      - name: Prepare PHP env for PrestaShop 9.1.x and later (define constants before any bootstrap)
+        run: |
+          mkdir -p ${{ github.event.repository.name }}/.phpstan-php-ini
+          {
+            echo "auto_prepend_file=$GITHUB_WORKSPACE/${{ github.event.repository.name }}/tests/phpstan/prepend-constants.php"
+            echo "memory_limit=512M"
+          } > ${{ github.event.repository.name }}/.phpstan-php-ini/php.ini
+
+      - name: Run PHPStan
+        uses: PrestaShop/.github/.github/actions/php-ci/phpstan@master
         with:
-          path: ~/.composer/cache
-          key: php-composer-cache
-
-      - run: composer install
-
-      # Docker images prestashop/prestashop may be used, even if the shop remains uninstalled
-      - name: Execute PHPStan on PrestaShop (Tag ${{ matrix.presta-version }}-${{ matrix.php-version }})
-        run: ./tests/phpstan.sh ${{ matrix.presta-version }} ${{ matrix.php-version }}
+          php-version: ${{ matrix.php_version }}
+          presta-version: ${{ matrix.presta_version }}
+          module-name: ${{ github.event.repository.name }}
+          phpstan-level: '5'
+          phpstan-config: tests/phpstan/phpstan-${{ matrix.presta_version }}.neon
 
   phpunit:
     name: PHPUnit
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [ '8.1', '8.2', '8.3', '8.4' ]
+        php-version: ['8.1', '8.2', '8.3', '8.4']
     timeout-minutes: 5
     steps:
       - name: Setup PHP
@@ -99,7 +94,7 @@ jobs:
           php-version: ${{ matrix.php-version }}
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # Add vendor folder in cache to make next builds faster
       - name: Cache vendor folder
