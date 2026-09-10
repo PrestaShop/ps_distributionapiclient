@@ -65,7 +65,14 @@ class DistributionApi
         ShopDataProvider $shopDataProvider,
         string $prestashopVersion,
         string $downloadDirectory,
-        string $projectDirectory,
+        // WHY: optional on purpose. This parameter was added in 2.0.1, and the compiled service
+        // definition on disk is written by whichever version of the module was installed when the
+        // container was last built. Between updating the module and the container being rebuilt,
+        // the new class is loaded by a factory that still passes the old six arguments, which is a
+        // fatal - and because it happens in the admin container, the back office answers 500 and
+        // the merchant cannot reach the page that would clear the cache. A default keeps that
+        // window survivable; the container still passes %kernel.project_dir% when it is current.
+        ?string $projectDirectory = null,
     ) {
         $this->circruitBreaker = $circruitBreaker;
         $this->sourceHandlerFactory = $sourceHandlerFactory;
@@ -73,7 +80,7 @@ class DistributionApi
         $this->prestashopVersion = $prestashopVersion;
         $this->downloadDirectory = rtrim($downloadDirectory, '/');
         $this->shopDataProvider = $shopDataProvider;
-        $this->projectDirectory = $projectDirectory;
+        $this->projectDirectory = $projectDirectory ?? _PS_ROOT_DIR_;
     }
 
     /**
