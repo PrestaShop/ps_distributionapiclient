@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Contributor } from '@/types'
+import { formatCompanyName } from '@/utils/company'
 
 const props = defineProps<{
   contributor: Contributor
@@ -31,7 +32,7 @@ const close = () => emit('close')
         </div>
         <div class="wof-top-modal__title">
           <h3 class="puik-h3">{{ contributor.name }}</h3>
-          <puik-tag v-if="contributor.company" :content="contributor.company" variant="blue" />
+          <puik-tag v-if="contributor.company" :content="formatCompanyName(contributor.company)" variant="blue" />
         </div>
         <div v-if="contributor.location" class="wof-top-modal__side-content__item">
           <puik-icon icon="location_on" :fill="0" />
@@ -49,7 +50,7 @@ const close = () => emit('close')
               Current role(s)
             </span>
             <span class="wof-top-modal__side-content__item-value puik-body-default">
-              {{ contributor.company}}
+              {{ formatCompanyName(contributor.company) }}
             </span>
           </div>
         </div>

@@ -4,6 +4,7 @@ import TopCard from '@/views/components/TopCard.vue'
 import TopModal from '@/views/components/TopModal.vue'
 import type { PuikTableHeader } from '@prestashopcorp/puik-components'
 import type { Contributor } from '@/types'
+import { formatCompanyName } from '@/utils/company'
 
 defineProps<{
   topContributors: Contributor[]
@@ -92,7 +93,7 @@ const closeModal = () => {
     <template #item-name="{ item }">
       <div class="wof-top-contributors__name">
         <span v-if="item.name" class="puik-body-default">{{ item.name }}</span>
-        <puik-tag v-if="item.company" :content="item.company" variant="blue" />
+        <puik-tag v-if="item.company" :content="formatCompanyName(item.company)" variant="blue" />
       </div>
     </template>
 
