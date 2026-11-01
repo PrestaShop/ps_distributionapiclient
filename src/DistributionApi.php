@@ -108,12 +108,15 @@ class DistributionApi
         return $modules;
     }
 
-    public function downloadModule(string $moduleName): void
+    public function downloadModule(string $moduleName, ?string $versionOnDisk = null): void
     {
         $modules = $this->getModuleList();
         foreach ($modules as $module) {
             if ($module['name'] === $moduleName) {
-                $this->doDownload($module);
+                // Files at least as recent as the package are upgraded in place
+                if (null === $versionOnDisk || version_compare($versionOnDisk, $module['version_available'], '<')) {
+                    $this->doDownload($module);
+                }
                 break;
             }
         }
