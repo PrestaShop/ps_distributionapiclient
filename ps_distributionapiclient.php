@@ -88,7 +88,8 @@ class Ps_Distributionapiclient extends Module
             return;
         }
 
-        $this->getDistributionApi()->downloadModule($params['moduleName']);
+        $module = Module::getInstanceByName($params['moduleName']);
+        $this->getDistributionApi()->downloadModule($params['moduleName'], $module ? (string) $module->version : null);
     }
 
     private function getDistributionApi(): DistributionApi
